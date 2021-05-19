@@ -1,0 +1,108 @@
+<!-- <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar> -->
+<div id="container" style="margin: 0 auto; background: rgba(248, 248, 248, 0.582); margin-top: 2%; font-size: x-large;">
+  <div class="title"
+    style="width: 100%; background-color: aliceblue; height: fit-content; text-align: center; font-weight: bolder; opacity: .6; border-radius: 10px; box-shadow: 0px 2px 2px rgb(155, 155, 155); padding-top: 10px; padding-bottom: 10px;">
+    COWIN MAIL NOTIFIER</div>
+  <form class="example-form" [formGroup]="subscribersForm" style="padding: 20px; text-align: center;" *ngIf="isVisible" #formDirective="ngForm">
+    <mat-form-field class="email" style="width: 100%;">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="!subscribersForm.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="!subscribersForm.hasError('email')">
+        Email is <strong>invalid</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <mat-form-field class="state" style="width: 100%;">
+      <mat-label>Select state</mat-label>
+      <mat-select formControlName="state" (selectionChange)="onSelect($event)">
+        <mat-option *ngFor="let state of stateList" [value]="state.state_id">
+          {{state.state_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field class="district" style="width: 100%;">
+      <mat-label>Select district</mat-label>
+      <mat-select formControlName="district" multiple (selectionChange)="onSelectDistrict($event)">
+        <mat-option *ngFor="let district of districtList" [value]="district.district_id">
+          {{district.district_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    &nbsp; &nbsp;
+    <mat-form-field class="state" style="width: 100%;">
+      <mat-label>Age</mat-label>
+      <mat-select formControlName="age" [(ngModel)]="selectedAge">
+        <mat-option *ngFor="let age of ageList" [value]="age.id">
+          {{age.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+    <br>
+    <p *ngIf="subscriptionMessage" style="font-size: small;">{{email_message}} {{district_message}}</p>
+    <button mat-stroked-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
+      (click)="doSubscribe()" *ngIf="!loading">
+      <span class="tooltiptext" *ngIf="!subscribersForm.valid">Fill the form correctly!</span>
+      <strong>SUBSCRIBE</strong>
+    </button>
+    <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto;"></mat-spinner>
+  </form>
+  <form class="example-form" [formGroup]="unSubscribersForm" style="padding: 20px; text-align: center;"
+    *ngIf="!isVisible" #formDirective="ngForm">
+    <mat-form-field class="email" style="width: 100%;">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="u_email" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="!unSubscribersForm.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="!unSubscribersForm.hasError('email')">
+        Email is <strong>invalid</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <p style="font-size: 20px; color: red;" *ngIf="subscriptionMessage">{{email_message}}</p>
+    <br>
+    <button mat-raised-button class="danger tooltip" (click)="doUnSubscribe()" [disabled]="isVisible"
+      [disabled]="!unSubscribersForm.valid"  *ngIf="!loading" 
+      style="text-align: center; margin-bottom: 5px; margin-right: 10px; height: 40px; line-height: 40px; width: fit-content;">
+      <span class="tooltiptext" *ngIf="!unSubscribersForm.valid">Enter email first.</span>
+      <span class="material-icons">
+        remove_circle
+      </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">UNSUBSCRIBE</span>
+    </button>
+    <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
+  </form>
+  <div id="buttom-options"
+    style="text-align: center; width: 100%;padding: 10px 0px 10px 0px;border-radius: 10px; background-color: rgb(235, 235, 235);">
+    <button mat-raised-button class="danger" (click)="toggleForm()" *ngIf="isVisible"
+      style="text-align: center; margin-bottom: 5px; margin-right: 10px; height: 40px; line-height: 40px; width: fit-content;">
+      <span class="material-icons">
+        remove_circle
+      </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">Unsubscribe Here</span>
+    </button>
+    <button mat-raised-button class="success-btn" (click)="toggleForm()" *ngIf="!isVisible"
+      style="text-align: center; margin-bottom: 5px; margin-right: 10px; height: 40px; line-height: 40px; width: fit-content;">
+      <span class="material-icons">
+        notification_add
+      </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">Subscribe Here</span>
+    </button>
+    <button mat-raised-button class="edit tooltip"
+      style="height: 40px; margin-right: 10px; line-height: 40px; width: fit-content;" disabled>
+      <span class="tooltiptext">This feature is not available now!</span>
+      <span class="material-icons">
+        edit
+      </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">Edit preference</span>
+    </button>
+  </div>
+</div>

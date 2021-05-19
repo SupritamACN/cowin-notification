@@ -1,0 +1,26 @@
+spring:
+    data:
+        mongodb:
+            uri: mongodb+srv://cowin-admin:ceWffsXxbjK68ZRo@cluster0.ls9hf.mongodb.net/cowin_user
+
+cowin:
+    host: https://cdn-api.co-vin.in/api
+    endpoints:
+        calenderByDistrict: ${cowin.host}/v2/appointment/sessions/public/calendarByDistrict
+        states: ${cowin.host}/v2/admin/location/states
+        districtsByState: ${cowin.host}/v2/admin/location/districts/{sate_id}
+        sessionByDistrictAndDate: ${cowin.host}/v2/appointment/sessions/public/findByDistrict?district_id={district_id}&date={date}
+
+environment: prod
+validatelink: https://cowin-slot-313213.el.r.appspot.com/v1/public
+server.port: 80
+
+#spring.main.web-application-type: NONE
+
+mail.smtphost: smtp.gmail.com
+mail.smtpauth: true
+mail.smtpport: 465
+mail.username: Covid Booking Status
+mail.mailid: cowin.slots.adm@gmail.com
+mail.password: iuuafcfuqqmcsrku
+
