@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @Document(value = "users")
 public class UserEntity {
     @Id
     private String _id;
+
+    private long chatId;
 
     private String email;
     private ArrayList<PlaceEntity> district;

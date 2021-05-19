@@ -24,3 +24,9 @@ hs_err_pid*
 
 .settings
 .project
+.theia
+.vscode
+.factorypath
+backend/target/
+frontend/src/node/
+frontend/target/

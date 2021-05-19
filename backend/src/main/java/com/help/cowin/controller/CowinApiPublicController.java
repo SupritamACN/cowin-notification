@@ -2,6 +2,7 @@ package com.help.cowin.controller;
 
 import com.help.cowin.config.YAMLConfig;
 import com.help.cowin.pojos.Centers;
+import com.help.cowin.pojos.TelegramUpdate;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 import com.help.cowin.repo.CowinDbUserRepo;
@@ -12,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,8 +28,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1/public")
 @CrossOrigin(origins = "*")
+@Slf4j
 public class CowinApiPublicController {
 
+    
     @Autowired
     private YAMLConfig yamlConfig;
 
@@ -55,7 +63,7 @@ public class CowinApiPublicController {
             String link = yamlConfig.getValidatelink()+"/validate/"+existingUVUser.get_id();
             mailService.sendEmail(existingUVUser.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
-            return ResponseEntity.status(HttpStatus.OK).body(existingUVUser);
+            return ResponseEntity.status(HttpStatus.OK).body(existingUVUser.get_id());
         }
         userEntityUV.setEnabled(false);
         UserEntityUV savedUser = userService.saveUVUser(userEntityUV);
@@ -63,7 +71,7 @@ public class CowinApiPublicController {
             String link = yamlConfig.getValidatelink()+"/validate/"+userEntityUV.get_id();
             mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
-            return ResponseEntity.status(HttpStatus.OK).body(savedUser);
+            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
         }
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Invalid request!");
     }
@@ -98,8 +106,34 @@ public class CowinApiPublicController {
     }
 
     @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
-    public ResponseEntity<Object> telegramUpdate(){
-        return null;
+    public ResponseEntity<Object> telegramUpdate(@RequestBody Update update){
         
+        log.error(update.toString());
+        
+        if(update.getMessage().getText().contains("/start")){
+            String userid = update.getMessage().getText().substring(6);
+            UserEntity user = userService.findUserById(userid);
+            if(user == null){
+                user = userService.findUserByEmail(userid);
+                if(user != null){
+                    user.setChatId(update.getMessage().getChatId());
+                }else{
+                    UserEntityUV userUV = userService.findUVUserById(userid);
+                    if(userUV != null){
+                        userService.deleteUVUserByMail(userUV.getEmail());
+                        UserEntity userToBeSaved = new UserEntity(userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), true);
+                        userToBeSaved.setChatId(update.getMessage().getChatId()); 
+                        userService.saveUser(userToBeSaved);
+                    }
+                }
+            }else{
+                user.setChatId(update.getMessage().getChatId());
+            }
+            userService.saveUser(user);
+            
+        }
+
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

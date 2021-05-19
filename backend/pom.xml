@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<start-class>com.help.cowin.CowinApplication</start-class>
+        <telegrambots.version>4.0.1</telegrambots.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,6 +30,16 @@
 			<scope>test</scope>
 		</dependency>
 
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>${telegrambots.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambotsextensions</artifactId>
+            <version>${telegrambots.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
@@ -38,6 +49,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>

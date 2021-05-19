@@ -7,6 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter @Getter
 @Document(value = "unverified_user")
 public class UserEntityUV {
 
@@ -18,6 +22,7 @@ public class UserEntityUV {
     private ArrayList<PlaceEntity> district;
     private boolean enabled;
 
+    private long chatId;
     private int minAgeLimit;
 
     public UserEntityUV() {

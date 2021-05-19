@@ -133,7 +133,7 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     console.log(userEntity);
     this._userService.doSubsribeUser(userEntity).subscribe(
       res => {
-        this.email_message = 'Please verify ' + this.subscribersForm.value.email + ', to complete subscription for';
+        this.email_message = 'Please verify ' + this.subscribersForm.value.email + ', to complete subscription for--- https://t.me/CowinNotBot?start=' + res.body;
         this.district_message = districtName;
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
