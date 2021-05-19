@@ -55,7 +55,7 @@
 							<outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/dist/cowin-mail-notifier</directory>
+									<directory>${project.parent.basedir}/frontend/dist/cowin-mail-notifier/</directory>
 								</resource>
 							</resources>
 						</configuration>
