@@ -51,7 +51,7 @@
     <br>
     <p *ngIf="subscriptionMessage" style="font-size: small;">{{email_message}} {{district_message}}</p>
     <p *ngIf="subscriptionMessage" style="font-size: small;">
-      {{telegramMessage}} 
+      {{telegramMessage}}
       <strong><a href="{{telegramId}}" target="_blank" rel="noopener noreferrer">{{telegramIdShowName}}</a></strong>
     </p>
     <button mat-stroked-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
@@ -94,8 +94,8 @@
   <!-- unsubscribe form end -->
 
   <!-- edit form start -->
-  <form class="example-form" [formGroup]="emailForm" style="padding: 20px; text-align: center;"
-    *ngIf="formMode == '2'" #formDirective="ngForm">
+  <form class="example-form" [formGroup]="emailForm" style="padding: 20px; text-align: center;" *ngIf="formMode == '2'"
+    #formDirective="ngForm">
     <p style="font-size: small;">Enter your registered mail ID</p>
     <mat-form-field class="email" style="width: 100%;">
       <mat-label>Email</mat-label>
@@ -123,13 +123,46 @@
     <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
   </form>
 
+    <!-- telegram form start -->
+    <form class="example-form" [formGroup]="telegramForm" style="padding: 20px; text-align: center;"
+    *ngIf="formMode == '3'" #formDirective="ngForm">
+    <mat-form-field class="email" style="width: 100%;">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+      <mat-error *ngIf="!telegramForm.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="!telegramForm.hasError('email')">
+        Email is <strong>invalid</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <br>
+    <p style="font-size: 20px; color: red;" *ngIf="subscriptionMessage">
+      {{email_message}}
+    </p>
+    <br>
+    <button mat-raised-button class="danger tooltip" (click)="doTelegramSub()" [disabled]="!telegramForm.valid"
+      *ngIf="!loading"
+      style="text-align: center; margin-bottom: 5px; margin-right: 10px; height: 40px; line-height: 40px; width: fit-content;">
+      <span class="tooltiptext" *ngIf="!telegramForm.valid">Enter email first.</span>
+      <span class="material-icons">
+        notifications_active
+        </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">SUBSCRIBE TELEGRAM</span>
+    </button>
+    <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
+  </form>
+  <!-- telegram form end -->
+
   <!-- update form start -->
-  <form class="example-form" [formGroup]="updateForm" 
+  <form class="example-form" [formGroup]="updateForm"
     style="padding: 20px; text-align: center; background-color: rgb(226, 246, 255); border-radius: 10px; margin-top: -5%; margin-bottom: 2%;"
     *ngIf="editMode && formMode == '2'" #formDirective="ngForm">
     <strong style="font-size: medium;">Your subcription activated for</strong><br>
     <ng-container *ngFor="let d of savedDistricts">
-      <span style="margin-left: 10px; width: max-content; background-color: aquamarine; padding: 4px; border-radius: 4px; font-size: medium;">
+      <span
+        style="margin-left: 10px; width: max-content; background-color: aquamarine; padding: 4px; border-radius: 4px; font-size: medium;">
         {{d.placeName}}</span>
     </ng-container>
     <br>
@@ -193,6 +226,14 @@
         notification_add
       </span>&nbsp;
       <span style="margin-top: auto; font-size: 1.08em;">Subscribe Here</span>
+    </button>
+    <button mat-raised-button class="edit tooltip" *ngIf="formMode !== '3'" (click)="toggleForm('3')"
+      style="height: 40px; margin-right: 10px; line-height: 40px; width: fit-content;">
+      <span class="tooltiptext">Telegram notification.</span>
+      <span class="material-icons">
+        notifications_active
+      </span>&nbsp;
+      <span style="margin-top: auto; font-size: 1.08em;">Subscribe Telegram</span>
     </button>
     <button mat-raised-button class="edit tooltip" *ngIf="formMode !== '2'" (click)="toggleForm('2')"
       style="height: 40px; margin-right: 10px; line-height: 40px; width: fit-content;" disabled>

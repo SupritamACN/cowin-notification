@@ -88,22 +88,9 @@ public class CowinApiPublicController {
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
-            savedUser = userService.saveUser(new UserEntity(userEntityUV.get_id(),userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
+            savedUser = userService.saveUser(new UserEntity(userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
-    }
-
-    @GetMapping("/telegram/subcribe/{email}")
-    public ResponseEntity<Object> telegramSubcribe(@PathVariable("email") String email){
-        UserEntity userEntity = userService.findUserByEmail(email);
-        UserEntityUV userEntityUV = userService.findUVUserByMail(email);
-        if(userEntity == null && userEntityUV == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
-        else if(userEntity != null && userEntityUV == null ) {
-            return ResponseEntity.status(HttpStatus.OK).body(userEntity.get_id());
-        }else{
-            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
-        }
     }
 
     @GetMapping("/unsubscribe/{email}")
@@ -119,42 +106,34 @@ public class CowinApiPublicController {
     }
 
     @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
-    public ResponseEntity<Object> telegramUpdate(@RequestBody List<Update> updates){
+    public ResponseEntity<Object> telegramUpdate(@RequestBody Update update){
         
-        log.error(updates.toString());
-        updates.forEach((Update update) -> {
-            if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
-                String userid = update.getMessage().getText().substring(6);
-                UserEntity user = userService.findUserById(userid);
-                if(user == null){
-                    user = userService.findUserByEmail(userid);
-                    if(user != null){
-                        user.setChatId(update.getMessage().getChatId());
-                        userService.saveUser(user);
-                    }else{
-                        UserEntityUV userUV = userService.findUVUserById(userid);
-                        if(userUV != null){
-                            userService.deleteUVUserByMail(userUV.getEmail());
-                            UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
-                            userToBeSaved.setChatId(update.getMessage().getChatId()); 
-                            userService.saveUser(userToBeSaved);
-                        }
-                        else{
-                            userUV = userService.findUVUserByMail(userid);
-                            if(userUV != null){
-                                userService.deleteUVUserByMail(userUV.getEmail());
-                                UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
-                                userToBeSaved.setChatId(update.getMessage().getChatId()); 
-                                userService.saveUser(userToBeSaved);
-                            }
-                        }
-                    }
-                }else{
+        log.error(update.toString());
+        
+        if(update.getMessage().getText().contains("/start")){
+            String userid = update.getMessage().getText().substring(6);
+            UserEntity user = userService.findUserById(userid);
+            if(user == null){
+                user = userService.findUserByEmail(userid);
+                if(user != null){
                     user.setChatId(update.getMessage().getChatId());
-                    userService.saveUser(user);
-                } 
+                }else{
+                    UserEntityUV userUV = userService.findUVUserById(userid);
+                    if(userUV != null){
+                        userService.deleteUVUserByMail(userUV.getEmail());
+                        UserEntity userToBeSaved = new UserEntity(userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), true);
+                        userToBeSaved.setChatId(update.getMessage().getChatId()); 
+                        userService.saveUser(userToBeSaved);
+                    }
+                }
+            }else{
+                user.setChatId(update.getMessage().getChatId());
             }
-        });
+            userService.saveUser(user);
+            
+        }
+
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

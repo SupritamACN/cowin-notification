@@ -38,9 +38,12 @@ export class UserService {
   }
 
   doUpdate(user:UserEntity):Observable<any>{
-    console.log(user);
     return new BehaviorSubject('N/A');
   }
-
+  doTelegramSubscribe(email:string): Observable<any>{
+    return this._http.get(
+      environment.R_BASE_URL + environment.TELEGRAM_SUBSCRIBE + email
+    );
+  }
 
 }

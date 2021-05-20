@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 
 
 export enum FormMode {
-  SUB_MODE, UN_SUB_MODE, EDIT_MODE
+  SUB_MODE, UN_SUB_MODE, EDIT_MODE, TG_MODE
 }
 
 @Component({
@@ -26,6 +26,7 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   unSubscribersForm: any;
   updateForm: FormGroup = this._fb.group({});
   emailForm: FormGroup = this._fb.group({});
+  telegramForm: FormGroup = this._fb.group({});
   toggleBtnText: boolean = true;
   formMode: string = FormMode.SUB_MODE.toString();
   editMode:boolean = false;
@@ -97,6 +98,9 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       state: [null, Validators.required],
       age: [null, [Validators.required]]
     })
+    this.telegramForm = this._fb.group({
+      email: [null, [Validators.required, Validators.email]]
+    })
   }
 
   onSelect(e: any) {
@@ -144,6 +148,9 @@ export class SubpageComponent implements OnInit, AfterViewInit {
         break;      
       case '2':
         this.formMode = FormMode.EDIT_MODE.toString();
+        break;
+      case '3':
+        this.formMode = FormMode.TG_MODE.toString();
         break;
       default:
         break;
@@ -220,6 +227,30 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       }
     )
     return val;
+  }
+
+  
+  doTelegramSub(): void {
+    this.loading = true;
+    //let val: any = this.telegramForm.value;
+    this._userService.doTelegramSubscribe(this.telegramForm.value.email).subscribe(
+      res => {
+        this.email_message = environment.subcription_message.telegramDirectVerificationMsg + environment.subcription_message.telegramDirectVerification + res;
+        this.subscriptionMessage = true;
+        this.formDirective.resetForm();
+        this.loading = false;
+      },
+      err => {
+        if (err.status == 404) {
+          this.email_message = '' + err.error;
+        } else {
+          this.email_message = '' + err.error.text;
+        }
+        this.subscriptionMessage = true;
+        this.formDirective.resetForm();
+        this.loading = false;
+      }
+    )
   }
 
   /* preference code */
