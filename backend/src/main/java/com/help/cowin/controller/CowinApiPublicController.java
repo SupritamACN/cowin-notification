@@ -88,7 +88,7 @@ public class CowinApiPublicController {
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
-            savedUser = userService.saveUser(new UserEntity(userEntityUV.getId(),userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
+            savedUser = userService.saveUser(new UserEntity(userEntityUV.get_id(),userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
     }
@@ -96,13 +96,13 @@ public class CowinApiPublicController {
     @GetMapping("/telegram/subcribe/{email}")
     public ResponseEntity<Object> telegramSubcribe(@PathVariable("email") String email){
         UserEntity userEntity = userService.findUserByEmail(email);
-        UserEntity userEntityUV = userService.findUserUVByEmail(email);
+        UserEntityUV userEntityUV = userService.findUVUserByMail(email);
         if(userEntity == null && userEntityUV == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         else if(userEntity != null && userEntityUV == null ) {
-            return ResponseEntity.status(HttpStatus.OK).body(userEntity.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(userEntity.get_id());
         }else{
-            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.getId());
+            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
         }
     }
 
@@ -121,7 +121,7 @@ public class CowinApiPublicController {
     @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
     public ResponseEntity<Object> telegramUpdate(@RequestBody List<Update> updates){
         
-        log.error(update.toString());
+        log.error(updates.toString());
         updates.forEach((Update update) -> {
             if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
                 String userid = update.getMessage().getText().substring(6);
@@ -135,15 +135,15 @@ public class CowinApiPublicController {
                         UserEntityUV userUV = userService.findUVUserById(userid);
                         if(userUV != null){
                             userService.deleteUVUserByMail(userUV.getEmail());
-                            UserEntity userToBeSaved = new UserEntity(userUV.get_Id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
+                            UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
                             userToBeSaved.setChatId(update.getMessage().getChatId()); 
                             userService.saveUser(userToBeSaved);
                         }
                         else{
-                            UserEntityUV userUV = userService.findUserUVByEmail(userid);
+                            userUV = userService.findUVUserByMail(userid);
                             if(userUV != null){
                                 userService.deleteUVUserByMail(userUV.getEmail());
-                                UserEntity userToBeSaved = new UserEntity(userUV.get_Id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
+                                UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
                                 userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                 userService.saveUser(userToBeSaved);
                             }
