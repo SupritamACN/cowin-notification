@@ -1,10 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from 'src/app/service/user.service';
 import { PlaceEntity, UserEntity } from 'src/app/model/UserEntity';
 import { CowinapiService } from 'src/app/service/cowinapi.service';
 import { DistrictEntity } from 'src/app/model/DistrictEntity';
 import { StateEntity } from 'src/app/model/StateEntity';
+import { environment } from 'src/environments/environment';
+
+
+export enum FormMode {
+  SUB_MODE, UN_SUB_MODE, EDIT_MODE
+}
 
 @Component({
   selector: 'app-subpage',
@@ -18,16 +24,26 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   appload: boolean = true;
   subscribersForm: any;
   unSubscribersForm: any;
-  isVisible: boolean = true;
+  updateForm: FormGroup = this._fb.group({});
+  emailForm: FormGroup = this._fb.group({});
+  toggleBtnText: boolean = true;
+  formMode: string = FormMode.SUB_MODE.toString();
+  editMode:boolean = false;
   loading: boolean = false;
   email_message: string = '';
-  district_message: string = '';
+  district_message: any = '';
+  telegramMessage:string= '';
+  telegramId:string= '';
+  telegramIdShowName:string= '';
   subscriptionMessage: boolean = false;
   districtList: DistrictEntity[] = [];
   selectedSate: Number = 0;
   selectedDistricts: PlaceEntity[] = [];
   stateList: StateEntity[] = [];
   selectedAge: Number = 0;
+  savedDistricts:PlaceEntity[] = [];
+  minAgeLimit:Number = 99;
+  u_email:string = '';
 
 
   ageList: {
@@ -73,7 +89,14 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     this.unSubscribersForm = this._fb.group({
       u_email: [null, [Validators.required, Validators.email]]
     })
-    this.appload = false;
+    this.emailForm = this._fb.group({
+      email: [null, [Validators.required, Validators.email]]
+    })
+    this.updateForm = this._fb.group({
+      district: [null, Validators.required],
+      state: [null, Validators.required],
+      age: [null, [Validators.required]]
+    })
   }
 
   onSelect(e: any) {
@@ -91,35 +114,52 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     this.selectedDistricts = []
     let val: Number[] = e.value;
     val.forEach((d: Number) => {
-      this.selectedDistricts.push(new PlaceEntity(d+'', this.getDistrictNameById(d+'')));
+      this.selectedDistricts.push(new PlaceEntity(d, this.getDistrictNameById(d + '')));
     }
     )
   }
 
-  getDistrictNameById(district_id: string):string {
-    let name:string = '';
+  getDistrictNameById(district_id: string): string {
+    let name: string = '';
     this.districtList.forEach((d: DistrictEntity) => {
-      if (d.district_id+'' == district_id){
+      if (d.district_id + '' == district_id) {
         name = d.district_name
       }
     })
     return name;
   }
-
-  toggleForm(): void {
+  /* form toggle code */
+  toggleForm(formMode: string): void {
     this.email_message = this.subscribersForm.value.email;
     this.district_message = this.subscribersForm.value.district;
     this.subscriptionMessage = false;
-    this.isVisible = !this.isVisible;
+    switch (formMode) {
+      case '0':
+        this.formMode = FormMode.SUB_MODE.toString();
+        break;      
+      case '1':
+        console.log('unsub cliked')
+        this.formMode = FormMode.UN_SUB_MODE.toString();
+        console.log(this.formMode)
+        break;      
+      case '2':
+        this.formMode = FormMode.EDIT_MODE.toString();
+        break;
+      default:
+        break;
+    }
   }
   doSubscribe(): void {
-    console.log(this.selectedDistricts)
+    this.district_message = ''
+    this.email_message = ''
     this.loading = true;
-    let districtName = '';
-    this.districtList.forEach(d => {
-      if (d.district_id == this.subscribersForm.value.district)
-        districtName = d.district_name;
-    })
+    /*  
+        let districtName = '';
+        this.districtList.forEach(d => {
+          if (d.district_id == this.subscribersForm.value.district)
+            districtName = d.district_name;
+        }) 
+    */
     let dList: PlaceEntity[] = [];
     this.selectedDistricts.forEach(d => {
       dList.push(new PlaceEntity(d.placeId, d.placeName))
@@ -130,11 +170,17 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       dList,
       this.selectedAge
     );
-    console.log(userEntity);
+
     this._userService.doSubsribeUser(userEntity).subscribe(
       res => {
-        this.email_message = 'Please verify ' + this.subscribersForm.value.email + ', to complete subscription for--- https://t.me/CowinNotBot?start=' + res.body;
-        this.district_message = districtName;
+        this.email_message = environment.subcription_message.msg01 + this.subscribersForm.value.email + environment.subcription_message.msg02;
+        this.selectedDistricts.forEach(sd => {
+          this.district_message = this.district_message + sd.placeName + ', '
+        })
+        this.district_message = this.district_message.substring(0, this.district_message.length - 2) + '.';
+        this.telegramMessage = environment.subcription_message.telegramMsg;
+        this.telegramId = environment.subcription_message.telegramId;
+        this.telegramIdShowName = environment.subcription_message.telegramIdShowName;
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;
@@ -174,5 +220,39 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       }
     )
     return val;
+  }
+
+  /* preference code */
+
+  showPreference(): void {
+    this.formMode = FormMode.EDIT_MODE.toString();
+  }
+  getUserByMail(){
+    this.u_email = this.unSubscribersForm.value.u_email;
+    this._userService.getUserByMail(this.u_email).subscribe(
+      res => {
+        console.log(res);
+        this.savedDistricts = res.district
+        console.log(res.district)
+        this.editMode = true;
+        this.emailForm.controls['email'].disable()
+      }
+    );
+  }
+
+  doUpdate(){
+    let user:UserEntity = new UserEntity(
+      this.updateForm.value.email,
+      this.selectedDistricts,
+      this.subscribersForm.value.age
+    );
+    this._userService.doUpdate(user).subscribe(
+      res => {
+        console.log(user);
+      },
+      err => {
+        console.log(err)        
+      }
+    );
   }
 }

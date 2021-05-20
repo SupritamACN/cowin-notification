@@ -10,10 +10,10 @@ export class UserEntity{
     }
 }
 export class PlaceEntity{
-    placeId:string;
+    placeId:Number;
     placeName:string;
 
-    constructor(placeId:string, placeName:string){
+    constructor(placeId:Number, placeName:string){
         this.placeId = placeId;
         this.placeName = placeName;
     }

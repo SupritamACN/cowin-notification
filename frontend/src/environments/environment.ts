@@ -10,7 +10,16 @@ export const environment = {
 
   COWIN_BASE_URL: 'https://cdn-api.co-vin.in/api',
   COWIN_DISTRICT: '/v2/admin/location/districts/',
-  COWIN_STATE: '/v2/admin/location/states'
+  COWIN_STATE: '/v2/admin/location/states',
+
+  subcription_message: {
+    msg01: 'Please verify ',
+    msg02: ', to complete subcription for ',
+    spamMsg: ' Please check your SPAM box as well in case you do not receive the email.',
+    telegramMsg: 'To register for Telegram message, please ping the same email id to ',
+    telegramId: 'https://to.me/CowinNotBot',
+    telegramIdShowName: 'telegram bot',
+  }
 };
 
 /*

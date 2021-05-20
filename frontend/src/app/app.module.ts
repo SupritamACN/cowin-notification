@@ -45,12 +45,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfoComponent } from './components/info/info.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PreferenceComponent } from './components/preference/preference.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SubpageComponent,
     InfoComponent,
+    PreferenceComponent,
 
   ],
   imports: [
