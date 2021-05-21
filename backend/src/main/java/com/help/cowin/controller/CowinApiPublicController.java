@@ -124,7 +124,7 @@ public class CowinApiPublicController {
         log.error(updates.toString());
         updates.forEach((Update update) -> {
             if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
-                String userid = update.getMessage().getText().substring(6);
+                String userid = update.getMessage().getText().substring(7).trim();
                 UserEntity user = userService.findUserById(userid);
                 if(user == null){
                     user = userService.findUserByEmail(userid);
