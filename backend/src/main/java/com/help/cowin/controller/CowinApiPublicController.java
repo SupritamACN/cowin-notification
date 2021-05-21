@@ -119,10 +119,10 @@ public class CowinApiPublicController {
     }
 
     @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
-    public ResponseEntity<Object> telegramUpdate(@RequestBody List<Update> updates){
+    public ResponseEntity<Object> telegramUpdate(@RequestBody Update update){
         
-        log.error(updates.toString());
-        updates.forEach((Update update) -> {
+        log.error(update.toString());
+        //updates.forEach((Update update) -> {
             if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
                 String userid = update.getMessage().getText().substring(7).trim();
                 UserEntity user = userService.findUserById(userid);
@@ -154,7 +154,7 @@ public class CowinApiPublicController {
                     userService.saveUser(user);
                 } 
             }
-        });
+        //});
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
