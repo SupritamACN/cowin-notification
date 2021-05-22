@@ -2,9 +2,11 @@ package com.help.cowin.util;
 
 import com.help.cowin.pojos.Centers;
 import com.help.cowin.pojos.PlaceEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ApiService {
     public List<PlaceEntity> getStates();
     public List<PlaceEntity> getDistricts(String state_id);

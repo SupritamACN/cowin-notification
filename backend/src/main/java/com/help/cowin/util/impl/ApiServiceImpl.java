@@ -1,12 +1,14 @@
-package com.help.cowin.util;
+package com.help.cowin.util.impl;
 
 import com.help.cowin.config.CowinEndpoints;
 import com.help.cowin.pojos.Centers;
 import com.help.cowin.pojos.PlaceEntity;
 import com.help.cowin.pojos.Sessions;
+import com.help.cowin.util.ApiService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.stereotype.Service;
+
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -14,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class ApiServiceImpl implements  ApiService{
+public class ApiServiceImpl implements ApiService{
 
     static final RestTemplate restTemplate = new RestTemplate();
 

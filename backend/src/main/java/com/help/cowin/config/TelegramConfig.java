@@ -9,13 +9,10 @@ import lombok.Setter;
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties
-@Setter @Getter
-public class YAMLConfig {
+@ConfigurationProperties(prefix = "telegram", ignoreUnknownFields = true)
+@Getter @Setter
+public class TelegramConfig {
     
-    private String environment;
-
-    private String validatelink;
-
-	
+    String sendMessageURL;
+    
 }

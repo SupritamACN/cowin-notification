@@ -11,6 +11,11 @@ cowin:
         districtsByState: ${cowin.host}/v2/admin/location/districts/{sate_id}
         sessionByDistrictAndDate: ${cowin.host}/v2/appointment/sessions/public/findByDistrict?district_id={district_id}&date={date}
 
+telegram:
+    token: 1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI
+    host: https://api.telegram.org/bot${telegram.token}/
+    sendChatURL: ${host}/sendMessage
+
 environment: prod
 validatelink: https://cowin-slot-313213.el.r.appspot.com/v1/public
 server.port: 8080

@@ -1,29 +1,24 @@
 package com.help.cowin.controller;
 
 import com.help.cowin.config.YAMLConfig;
-import com.help.cowin.pojos.Centers;
-import com.help.cowin.pojos.TelegramUpdate;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
-import com.help.cowin.repo.CowinDbUserRepo;
 import com.help.cowin.util.ApiService;
 import com.help.cowin.util.EmailService;
 import com.help.cowin.util.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/public")
@@ -93,18 +88,7 @@ public class CowinApiPublicController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
     }
 
-    @GetMapping("/telegram/subcribe/{email}")
-    public ResponseEntity<Object> telegramSubcribe(@PathVariable("email") String email){
-        UserEntity userEntity = userService.findUserByEmail(email);
-        UserEntityUV userEntityUV = userService.findUVUserByMail(email);
-        if(userEntity == null && userEntityUV == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
-        else if(userEntity != null && userEntityUV == null ) {
-            return ResponseEntity.status(HttpStatus.OK).body(userEntity.get_id());
-        }else{
-            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
-        }
-    }
+   
 
     @GetMapping("/unsubscribe/{email}")
     public ResponseEntity<Object> deleteUser(@PathVariable("email") String email){
@@ -118,43 +102,5 @@ public class CowinApiPublicController {
         return ResponseEntity.status(HttpStatus.OK).body("User removed successfully!");
     }
 
-    @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
-    public ResponseEntity<Object> telegramUpdate(@RequestBody Update update){
-        
-        log.error(update.toString());
-        //updates.forEach((Update update) -> {
-            if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
-                String userid = update.getMessage().getText().substring(7).trim();
-                UserEntity user = userService.findUserById(userid);
-                if(user == null){
-                    user = userService.findUserByEmail(userid);
-                    if(user != null){
-                        user.setChatId(update.getMessage().getChatId());
-                        userService.saveUser(user);
-                    }else{
-                        UserEntityUV userUV = userService.findUVUserById(userid);
-                        if(userUV != null){
-                            userService.deleteUVUserByMail(userUV.getEmail());
-                            UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
-                            userToBeSaved.setChatId(update.getMessage().getChatId()); 
-                            userService.saveUser(userToBeSaved);
-                        }
-                        else{
-                            userUV = userService.findUVUserByMail(userid);
-                            if(userUV != null){
-                                userService.deleteUVUserByMail(userUV.getEmail());
-                                UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
-                                userToBeSaved.setChatId(update.getMessage().getChatId()); 
-                                userService.saveUser(userToBeSaved);
-                            }
-                        }
-                    }
-                }else{
-                    user.setChatId(update.getMessage().getChatId());
-                    userService.saveUser(user);
-                } 
-            }
-        //});
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+   
 }

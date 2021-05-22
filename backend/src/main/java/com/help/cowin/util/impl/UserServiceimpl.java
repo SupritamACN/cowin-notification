@@ -1,19 +1,16 @@
-package com.help.cowin.util;
+package com.help.cowin.util.impl;
 
-import com.help.cowin.pojos.PlaceEntity;
+import java.util.Optional;
+
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 import com.help.cowin.repo.CowinDbUserRepo;
 import com.help.cowin.repo.UserEntityUVRepo;
+import com.help.cowin.util.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.Optional;
-
-@Service
 public class UserServiceimpl implements UserService{
 
     @Autowired

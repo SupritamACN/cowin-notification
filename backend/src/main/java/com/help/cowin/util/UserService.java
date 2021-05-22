@@ -4,6 +4,9 @@ import com.help.cowin.pojos.PlaceEntity;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface UserService {
 
     public UserEntity saveUser(UserEntity userEntity);

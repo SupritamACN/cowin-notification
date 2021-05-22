@@ -34,4 +34,12 @@ public class UserEntity {
         this.minAgeLimit = minAgeLimit;
         this._id = id;
     }
+
+    public String getDistrictNameAString(){
+        StringBuilder returnString = new StringBuilder();
+        this.district.forEach(a -> {
+            returnString.append(a.getPlaceName() + ", ");
+        });
+        return returnString.toString();
+    }
 }
