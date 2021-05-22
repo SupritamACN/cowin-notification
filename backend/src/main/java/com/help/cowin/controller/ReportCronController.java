@@ -1,29 +1,17 @@
-package com.help.cowin.util;
+package com.help.cowin.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.help.cowin.config.CowinEndpoints;
 import com.help.cowin.config.MailConfig;
-import com.help.cowin.pojos.Centers;
-import com.help.cowin.pojos.Root;
-import com.help.cowin.pojos.Sessions;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.repo.CowinDbUserRepo;
 import com.help.cowin.repo.UserEntityUVRepo;
 import com.help.cowin.util.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ReportCronController {

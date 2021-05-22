@@ -1,7 +1,6 @@
 package com.help.cowin.util.impl;
 
 import com.help.cowin.config.TelegramConfig;
-import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.util.TelegramService;
 
 import org.json.JSONObject;
