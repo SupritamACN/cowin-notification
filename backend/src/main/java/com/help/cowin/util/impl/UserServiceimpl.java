@@ -9,8 +9,9 @@ import com.help.cowin.repo.UserEntityUVRepo;
 import com.help.cowin.util.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class UserServiceimpl implements UserService{
 
     @Autowired

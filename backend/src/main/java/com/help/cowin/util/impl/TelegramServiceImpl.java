@@ -6,10 +6,11 @@ import com.help.cowin.util.TelegramService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+@Service
 public class TelegramServiceImpl implements TelegramService {
 
     @Autowired
