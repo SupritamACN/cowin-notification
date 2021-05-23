@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import lombok.Slf4j;
+
 @Service
+@Slf4j
 public class TelegramServiceImpl implements TelegramService {
 
     @Autowired
@@ -30,6 +33,9 @@ public class TelegramServiceImpl implements TelegramService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
+
+        log.info("Telegram Send Message URL:", telegramConfig.getSendMessageURL());
+        log.info("Request"+entity.toString());
 
         ResponseEntity<Message> messageSent = restTemplate.exchange(telegramConfig.getSendMessageURL(), 
                 HttpMethod.POST, entity, Message.class);
