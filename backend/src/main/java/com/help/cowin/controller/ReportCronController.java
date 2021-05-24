@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,15 +56,13 @@ public class ReportCronController {
     @Autowired
     private RestTemplate restTemplate;
     
-    //@Scheduled(cron = "0 0 0 * * *")
-    @GetMapping("/housekeepingUnVerifiedUsers")
+    @Scheduled(cron = "0 0 0 * * *")
     void housekeepingUnVerfiedUsers(){
         unverifiedUserRepo.deleteAll();
     }
 
 
-    /*@Scheduled(cron = "0 0 0 * * *")*/
-    @GetMapping("/restCountForUsers")
+    @Scheduled(cron = "0 0 0 * * *")
     void resetCountForUsers(){
         List<UserEntity> userEntityList = cowinDbUserRepo.findAll();
         userEntityList.forEach(user ->{
