@@ -73,17 +73,21 @@ public class CowinApiPublicController {
 
     @GetMapping("/validate/{objectId}")
     public ResponseEntity<Object> enableSubcription(@PathVariable("objectId") String id){
-        UserEntity savedUser = null;
+        UserEntity savedUser = userService.findUserById(id);
         UserEntityUV userEntityUV = userService.findUVUserById(id);
-        if(userEntityUV == null)
+        if(userEntityUV == null && savedUser == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token!");
-        if(userEntityUV.isEnabled())
+        if(savedUser.isEnabled())
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
 
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
             savedUser = userService.saveUser(new UserEntity(userEntityUV.get_id(),userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
+        }
+        else if(null != savedUser){
+            savedUser.setEnabled(true);
+            userService.saveUser(savedUser);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
     }
