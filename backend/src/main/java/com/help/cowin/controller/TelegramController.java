@@ -102,6 +102,8 @@ public class TelegramController {
                 UserEntity user = userService.findUserByChatId(Long.toString(update.getMessage().getChatId()));
                 user.setChatId(0l);
                 userService.saveUser(user);
+                telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Unsubscribed from" 
+                + "Telegram notifications. Email notifications may still continue.");
 
             }else{
                 ArrayList<String> email = getEmailAddressesInString(update.getMessage().getText());
