@@ -77,7 +77,7 @@ public class CowinApiPublicController {
         UserEntityUV userEntityUV = userService.findUVUserById(id);
         if(userEntityUV == null && savedUser == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token!");
-        if(savedUser.isEnabled())
+        if(savedUser != null && savedUser.isEnabled())
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
 
         if(userEntityUV != null) {

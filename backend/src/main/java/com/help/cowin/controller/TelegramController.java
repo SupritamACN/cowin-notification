@@ -91,6 +91,18 @@ public class TelegramController {
                     user.setChatId(update.getMessage().getChatId());
                     userService.saveUser(user);
                 } 
+            }
+            else if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() == 6){
+
+                telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Ping your registered email id to subscribe for Telegram notification. Type 'Unsubscribe' to turn off" 
+                + "Telegram notifications. Email notifications may still continue.");
+
+            }else if(update.getMessage().getText().toLowerCase().contains("unsubcribe")){
+
+                UserEntity user = userService.findUserByChatId(Long.toString(update.getMessage().getChatId()));
+                user.setChatId(0l);
+                userService.saveUser(user);
+
             }else{
                 ArrayList<String> email = getEmailAddressesInString(update.getMessage().getText());
                 if(email.size() > 0){
@@ -116,6 +128,9 @@ public class TelegramController {
                             }
                         
                     });
+                }else{
+                    telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Ping your registered email id to subscribe for Telegram notification. Type 'Unsubscribe' to turn off" 
+                    + "Telegram notifications. Email notifications may still continue.");
                 }
             } 
         

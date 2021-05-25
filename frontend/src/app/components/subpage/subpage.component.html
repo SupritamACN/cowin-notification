@@ -54,7 +54,7 @@
       {{telegramMessage}}
       <strong><a href="{{telegramId}}" target="_blank" rel="noopener noreferrer">{{telegramIdShowName}}</a></strong>
     </p>
-    <button mat-stroked-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
+    <button mat-raised-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
       (click)="doSubscribe()" *ngIf="!loading">
       <span class="tooltiptext" *ngIf="!subscribersForm.valid">Fill the form correctly!</span>
       <strong>SUBSCRIBE</strong>
@@ -127,8 +127,8 @@
     <form class="example-form" [formGroup]="telegramForm" style="padding: 20px; text-align: center;"
     *ngIf="formMode == '3'" #formDirective="ngForm">
     <mat-form-field class="email" style="width: 100%;">
-      <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+      <mat-label>Registered Email</mat-label>
+      <input type="email" matInput formControlName="email" placeholder="Ex. abc@test.com">
       <mat-error *ngIf="!telegramForm.hasError('required')">
         Email is <strong>required</strong>
       </mat-error>
@@ -146,9 +146,10 @@
       *ngIf="!loading"
       style="text-align: center; margin-bottom: 5px; margin-right: 10px; height: 40px; line-height: 40px; width: fit-content;">
       <span class="tooltiptext" *ngIf="!telegramForm.valid">Enter email first.</span>
-      <span class="material-icons">
+      <!-- <span class="material-icons">
         notifications_active
-        </span>&nbsp;
+        </span>&nbsp; -->
+        <mat-icon svgIcon="telegramIcon"></mat-icon>&nbsp;
       <span style="margin-top: auto; font-size: 1.08em;">SUBSCRIBE TELEGRAM</span>
     </button>
     <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
@@ -230,9 +231,10 @@
     <button mat-raised-button class="edit tooltip" *ngIf="formMode !== '3'" (click)="toggleForm('3')"
       style="height: 40px; margin-right: 10px; line-height: 40px; width: fit-content;">
       <span class="tooltiptext">Telegram notification.</span>
-      <span class="material-icons">
+      <!-- <span class="material-icons">
         notifications_active
-      </span>&nbsp;
+      </span>&nbsp; -->
+      <mat-icon svgIcon="telegramIcon"></mat-icon>&nbsp;
       <span style="margin-top: auto; font-size: 1.08em;">Subscribe Telegram</span>
     </button>
     <button mat-raised-button class="edit tooltip" *ngIf="formMode !== '2'" (click)="toggleForm('2')"

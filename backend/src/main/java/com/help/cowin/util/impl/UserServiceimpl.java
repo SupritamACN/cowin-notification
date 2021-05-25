@@ -92,5 +92,14 @@ public class UserServiceimpl implements UserService{
         return null;
     }
 
+    @Override
+    public UserEntity findUserByChatId(String chatId) {
+        Optional<UserEntity> user = cowinDbUserRepo.findByChatId(chatId);
+        if(user.isPresent()){
+            return user.get();
+        }
+        return null;
+    }
+
 
 }
