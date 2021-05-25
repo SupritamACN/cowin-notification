@@ -132,7 +132,7 @@ public class TelegramController {
                     });
                 }else{
                     telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Ping your registered email id to subscribe for Telegram notification. Type 'Unsubscribe' to turn off" 
-                    + "Telegram notifications. Email notifications may still continue.");
+                    + " Telegram notifications. Email notifications may still continue.");
                 }
             } 
         
