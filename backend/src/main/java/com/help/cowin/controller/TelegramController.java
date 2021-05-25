@@ -97,9 +97,9 @@ public class TelegramController {
                 telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Ping your registered email id to subscribe for Telegram notification. Type 'Unsubscribe' to turn off" 
                 + "Telegram notifications. Email notifications may still continue.");
 
-            }else if(update.getMessage().getText().toLowerCase().contains("unsubcribe")){
+            }else if(update.getMessage().getText().toLowerCase().contains("unsubscribe")){
 
-                UserEntity user = userService.findUserByChatId(Long.toString(update.getMessage().getChatId()));
+                UserEntity user = userService.findUserByChatId(update.getMessage().getChatId());
                 user.setChatId(0l);
                 userService.saveUser(user);
                 telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Unsubscribed from" 

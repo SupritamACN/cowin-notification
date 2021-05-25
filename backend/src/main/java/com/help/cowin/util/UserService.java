@@ -12,7 +12,7 @@ public interface UserService {
     public UserEntity findUserByEmail(String email);
     public UserEntity findUserById(String id);
 
-    public UserEntity findUserByChatId(String chatId);
+    public UserEntity findUserByChatId(long chatId);
 
     public UserEntityUV saveUVUser(UserEntityUV userEntity);
     public UserEntityUV updateUVUser(UserEntityUV userEntity);

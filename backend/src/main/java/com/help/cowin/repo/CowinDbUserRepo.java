@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface CowinDbUserRepo extends MongoRepository<UserEntity, String> {
 
     Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByChatId(String chatId);
+    Optional<UserEntity> findByChatId(long chatId);
 
 }
