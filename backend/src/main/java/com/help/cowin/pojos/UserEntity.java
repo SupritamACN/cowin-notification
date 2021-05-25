@@ -6,9 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
 
-@Getter @Setter @AllArgsConstructor
+@Getter @Setter @AllArgsConstructor @ToString
 @Document(value = "users")
 public class UserEntity {
     @Id

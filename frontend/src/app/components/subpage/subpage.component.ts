@@ -235,12 +235,14 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     //let val: any = this.telegramForm.value;
     this._userService.doTelegramSubscribe(this.telegramForm.value.email).subscribe(
       res => {
+        console.log(res);
         this.email_message = environment.subcription_message.telegramDirectVerificationMsg + environment.subcription_message.telegramDirectVerification + res;
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;
       },
       err => {
+        console.log(err);
         if (err.status == 404) {
           this.email_message = '' + err.error;
         } else {

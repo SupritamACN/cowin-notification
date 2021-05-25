@@ -51,7 +51,7 @@ public class TelegramController {
     @PostMapping("/1788947908:AAGLz3HunYcCKneOZbrOU0IF-PuhJRYcVwI")
     public ResponseEntity<Object> telegramUpdate(@RequestBody Update update){
         
-        String welcomeChatMessage = "Thank you for subcribing to Telegram for slot updates. You will get updates for districts:";
+        String welcomeChatMessage = "Thank you for subscribing to Telegram for slot updates. You will get updates for districts:";
 
         log.info(update.toString());
         //updates.forEach((Update update) -> {
@@ -73,7 +73,7 @@ public class TelegramController {
                             userToBeSaved.setChatId(update.getMessage().getChatId()); 
                             userService.saveUser(userToBeSaved);
                             telegramService.sendChat(Long.toString(userToBeSaved.getChatId()), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
                         }
                         else{
                             userUV = userService.findUVUserByMail(userid);
