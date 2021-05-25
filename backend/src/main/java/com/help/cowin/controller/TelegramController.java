@@ -95,7 +95,7 @@ public class TelegramController {
             else if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() == 6){
 
                 telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Ping your registered email id to subscribe for Telegram notification. Type 'Unsubscribe' to turn off" 
-                + "Telegram notifications. Email notifications may still continue.");
+                + " Telegram notifications. Email notifications may still continue.");
 
             }else if(update.getMessage().getText().toLowerCase().contains("unsubscribe")){
 
@@ -103,7 +103,7 @@ public class TelegramController {
                 user.setChatId(0l);
                 userService.saveUser(user);
                 telegramService.sendChat(Long.toString(update.getMessage().getChatId()), "Unsubscribed from" 
-                + "Telegram notifications. Email notifications may still continue.");
+                + " Telegram notifications. Email notifications may still continue.");
 
             }else{
                 ArrayList<String> email = getEmailAddressesInString(update.getMessage().getText());
