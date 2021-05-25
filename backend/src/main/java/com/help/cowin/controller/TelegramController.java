@@ -1,5 +1,9 @@
 package com.help.cowin.controller;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 import com.help.cowin.util.TelegramService;
@@ -60,7 +64,7 @@ public class TelegramController {
                         user.setChatId(update.getMessage().getChatId());
                         userService.saveUser(user);
                         telegramService.sendChat(Long.toString(user.getChatId()), welcomeChatMessage + user.getDistrictNameAString() + 
-                                " for Age:" + (user.getMinAgeLimit() == 0 ? "both" : Integer.toString(user.getMinAgeLimit())));
+                                " for Age:" + (user.getMinAgeLimit() == 0 ? "Both" : Integer.toString(user.getMinAgeLimit())));
                     }else{
                         UserEntityUV userUV = userService.findUVUserById(userid);
                         if(userUV != null){
@@ -79,7 +83,7 @@ public class TelegramController {
                                 userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                 userService.saveUser(userToBeSaved);
                                 telegramService.sendChat(Long.toString(userToBeSaved.getChatId()), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
                             }
                         }
                     }
@@ -87,8 +91,44 @@ public class TelegramController {
                     user.setChatId(update.getMessage().getChatId());
                     userService.saveUser(user);
                 } 
-            }
+            }else{
+                ArrayList<String> email = getEmailAddressesInString(update.getMessage().getText());
+                if(email.size() > 0){
+                    email.forEach(e ->{
+                        
+                            UserEntity user = userService.findUserByEmail(e);
+                            if(user != null){
+                                user.setChatId(update.getMessage().getChatId());
+                                userService.saveUser(user);
+                                telegramService.sendChat(Long.toString(user.getChatId()), welcomeChatMessage + user.getDistrictNameAString() + 
+                                        " for Age:" + (user.getMinAgeLimit() == 0 ? "Both" : Integer.toString(user.getMinAgeLimit())));
+                            }else{
+                                UserEntityUV userUV = userService.findUVUserById(e);
+                                if(userUV != null){
+                                    userService.deleteUVUserByMail(userUV.getEmail());
+                                    UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
+                                    userToBeSaved.setChatId(update.getMessage().getChatId()); 
+                                    userService.saveUser(userToBeSaved);
+                                    telegramService.sendChat(Long.toString(userToBeSaved.getChatId()), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
+                                        " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                }
+
+                            }
+                        
+                    });
+                }
+            } 
         
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    
+    public ArrayList<String> getEmailAddressesInString(String text) {
+        ArrayList<String> emails = new ArrayList<>();
+
+        Matcher matcher = Pattern.compile("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}").matcher(text);
+        while (matcher.find()) {
+            emails.add(matcher.group());
+        }
+        return emails;
     }
 }
