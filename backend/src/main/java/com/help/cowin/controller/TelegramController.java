@@ -53,7 +53,7 @@ public class TelegramController {
         
         String welcomeChatMessage = "Thank you for subcribing to Telegram for slot updates. You will get updates for districts:";
 
-        log.error(update.toString());
+        log.info(update.toString());
         //updates.forEach((Update update) -> {
             if(update.getMessage().getText().contains("/start") && update.getMessage().getText().length() > 7){
                 String userid = update.getMessage().getText().substring(7).trim();
@@ -103,7 +103,7 @@ public class TelegramController {
                                 telegramService.sendChat(Long.toString(user.getChatId()), welcomeChatMessage + user.getDistrictNameAString() + 
                                         " for Age:" + (user.getMinAgeLimit() == 0 ? "Both" : Integer.toString(user.getMinAgeLimit())));
                             }else{
-                                UserEntityUV userUV = userService.findUVUserById(e);
+                                UserEntityUV userUV = userService.findUVUserByMail(e);
                                 if(userUV != null){
                                     userService.deleteUVUserByMail(userUV.getEmail());
                                     UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),userUV.getDistrict(),userUV.getMinAgeLimit(), false);
