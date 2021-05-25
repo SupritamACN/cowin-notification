@@ -142,9 +142,7 @@ export class SubpageComponent implements OnInit, AfterViewInit {
         this.formMode = FormMode.SUB_MODE.toString();
         break;      
       case '1':
-        console.log('unsub cliked')
         this.formMode = FormMode.UN_SUB_MODE.toString();
-        console.log(this.formMode)
         break;      
       case '2':
         this.formMode = FormMode.EDIT_MODE.toString();
@@ -210,12 +208,14 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     let val: any = this.unSubscribersForm.value;
     this._userService.doUnSubscribeUser(this.unSubscribersForm.value.u_email).subscribe(
       res => {
-        this.email_message = '' + val.u_email + ', unsubscribed!';
+        console.log(res)
+        this.email_message = '' + res;
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;
       },
       err => {
+        console.log('err : ' + err)
         if (err.status == 404) {
           this.email_message = '' + err.error;
         } else {

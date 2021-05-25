@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,14 +14,19 @@ export class UserService {
   constructor(private _http: HttpClient) { }
 
   doSubsribeUser(user:UserEntity):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    headers.set('Content-Type', 'application/json; charset=utf-8')
     return this._http.post(
       environment.R_BASE_URL + environment.R_SUBSCRIBE_USER,
-      user
+      user,
+      {headers, responseType: 'text'}
     );
   }
   doUnSubscribeUser(email:string):Observable<any>{
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
     return this._http.get(
-      environment.R_BASE_URL + environment.R_UNSUBSCRIBE_USER + email
+      environment.R_BASE_URL + environment.R_UNSUBSCRIBE_USER + email,
+      {headers, responseType: 'text'}
     );
   }
 
