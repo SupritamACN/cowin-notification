@@ -24,7 +24,7 @@ public class TelegramServiceImpl implements TelegramService {
     RestTemplate restTemplate;
 
     @Override
-    public boolean sendChat(String chatId, String message) {
+    public boolean sendChat(Long chatId, String message) {
         
         JSONObject request = new JSONObject();
         request.put("chat_id", chatId);

@@ -23,7 +23,7 @@ public class UserEntityUV {
     private ArrayList<PlaceEntity> district;
     private boolean enabled;
 
-    private long chatId;
+    private Long chatId;
     private int minAgeLimit;
 
     public UserEntityUV() {
