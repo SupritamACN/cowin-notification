@@ -101,8 +101,9 @@ public class TelegramController {
             }else if(update.getMessage().getText().toLowerCase().contains("unsubscribe")){
 
                 UserEntity user = userService.findUserByChatId(update.getMessage().getChatId());
-                user.setChatId(0L);
-                userService.saveUser(user);
+                userService.deleteUser(user);
+                UserEntity userToBeSaved = new UserEntity(user.get_id(), user.getEmail(), user.getDistrict(), user.getMinAgeLimit(), user.isEnabled());
+                userService.saveUser(userToBeSaved);
                 telegramService.sendChat(update.getMessage().getChatId(), "Unsubscribed from" 
                 + " Telegram notifications. Email notifications may still continue.");
 
