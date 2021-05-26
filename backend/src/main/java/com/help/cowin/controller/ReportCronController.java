@@ -56,14 +56,16 @@ public class ReportCronController {
     @Autowired
     private RestTemplate restTemplate;
     
-    @Scheduled(cron = "0 0 0 * * *")
-    void housekeepingUnVerfiedUsers(){
+    //@Scheduled(cron = "0 0 0 * * *")
+    @GetMapping("/housekeep-temp-table")
+    public void housekeepingUnVerfiedUsers(){
         unverifiedUserRepo.deleteAll();
     }
 
 
-    @Scheduled(cron = "0 0 0 * * *")
-    void resetCountForUsers(){
+    //@Scheduled(cron = "0 0 0 * * *")
+    @GetMapping("/reset-count-for-users")
+    public void resetCountForUsers(){
         List<UserEntity> userEntityList = cowinDbUserRepo.findAll();
         userEntityList.forEach(user ->{
             user.setNotifyCount(0);

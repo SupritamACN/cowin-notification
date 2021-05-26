@@ -45,7 +45,10 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   savedDistricts:PlaceEntity[] = [];
   minAgeLimit:Number = 99;
   u_email:string = '';
-
+  telegramDirectVerificationMsg1:string= '';
+  telegramDirectVerificationMsg2:string= '';
+  telegramDirectVerificationMsg3:string= '';
+  telegramURL:string= '';
 
   ageList: {
     id: Number;
@@ -178,16 +181,23 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       this.selectedAge
     );
 
-    this._userService.doSubsribeUser(userEntity).subscribe(
+    this._userService.doSubscribeUser(userEntity).subscribe(
       res => {
         this.email_message = environment.subcription_message.msg01 + this.subscribersForm.value.email + environment.subcription_message.msg02;
         this.selectedDistricts.forEach(sd => {
           this.district_message = this.district_message + sd.placeName + ', '
         })
         this.district_message = this.district_message.substring(0, this.district_message.length - 2) + '.';
-        this.telegramMessage = environment.subcription_message.telegramMsg;
+        this.telegramMessage = environment.subcription_message.telegramMessage;
         this.telegramId = environment.subcription_message.telegramId;
         this.telegramIdShowName = environment.subcription_message.telegramIdShowName;
+
+        this.telegramDirectVerificationMsg1 = environment.subcription_message.telegramDirectVerificationMsg1;
+        this.telegramDirectVerificationMsg2 = environment.subcription_message.telegramDirectVerificationMsg2;
+        this.telegramDirectVerificationMsg3 = environment.subcription_message.telegramDirectVerificationMsg3;
+
+        this.telegramURL = environment.subcription_message.telegramDirectVerification + res.message;
+
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;
@@ -236,7 +246,13 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     this._userService.doTelegramSubscribe(this.telegramForm.value.email).subscribe(
       res => {
         console.log(res);
-        this.email_message = environment.subcription_message.telegramDirectVerificationMsg + environment.subcription_message.telegramDirectVerification + res;
+        
+        this.telegramDirectVerificationMsg1 = environment.subcription_message.telegramDirectVerificationMsg1;
+        this.telegramDirectVerificationMsg2 = environment.subcription_message.telegramDirectVerificationMsg2;
+        this.telegramDirectVerificationMsg3 = environment.subcription_message.telegramDirectVerificationMsg3;
+
+        this.telegramURL = environment.subcription_message.telegramDirectVerification + res.message;
+        
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;

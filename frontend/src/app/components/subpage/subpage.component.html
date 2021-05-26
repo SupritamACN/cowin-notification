@@ -54,6 +54,11 @@
       {{telegramMessage}}
       <strong><a href="{{telegramId}}" target="_blank" rel="noopener noreferrer">{{telegramIdShowName}}</a></strong>
     </p>
+    <p *ngIf="subscriptionMessage" style="font-size: small;">
+      {{telegramDirectVerificationMsg1}}
+      <strong><a href="{{telegramURL}}" target="_blank" rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
+      {{telegramDirectVerificationMsg3}}
+    </p>
     <button mat-raised-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
       (click)="doSubscribe()" *ngIf="!loading">
       <span class="tooltiptext" *ngIf="!subscribersForm.valid">Fill the form correctly!</span>
@@ -138,8 +143,10 @@
     </mat-form-field>
     <br>
     <br>
-    <p style="font-size: 20px; color: red;" *ngIf="subscriptionMessage">
-      {{email_message}}
+    <p *ngIf="subscriptionMessage" style="font-size: 20px;">
+      {{telegramDirectVerificationMsg1}}
+      <strong><a href="{{telegramURL}}" target="_blank" rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
+      {{telegramDirectVerificationMsg3}}
     </p>
     <br>
     <button mat-raised-button class="danger tooltip" (click)="doTelegramSub()" [disabled]="!telegramForm.valid"

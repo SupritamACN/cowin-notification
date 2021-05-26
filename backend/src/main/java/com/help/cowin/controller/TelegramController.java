@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.help.cowin.pojos.Response;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 import com.help.cowin.util.TelegramService;
@@ -35,16 +36,16 @@ public class TelegramController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/telegram/subcribe/{email}")
+    @GetMapping("/telegram/subscribe/{email}")
     public ResponseEntity<Object> telegramSubcribe(@PathVariable("email") String email){
         UserEntity userEntity = userService.findUserByEmail(email);
         UserEntityUV userEntityUV = userService.findUVUserByMail(email);
         if(userEntity == null && userEntityUV == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found!");
         else if(userEntity != null && userEntityUV == null ) {
-            return ResponseEntity.status(HttpStatus.OK).body(userEntity.get_id());
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", userEntity.get_id()));
         }else{
-            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", userEntityUV.get_id()));
         }
     }
 

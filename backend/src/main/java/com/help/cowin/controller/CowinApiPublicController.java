@@ -1,6 +1,7 @@
 package com.help.cowin.controller;
 
 import com.help.cowin.config.YAMLConfig;
+import com.help.cowin.pojos.Response;
 import com.help.cowin.pojos.UserEntity;
 import com.help.cowin.pojos.UserEntityUV;
 import com.help.cowin.util.ApiService;
@@ -58,7 +59,7 @@ public class CowinApiPublicController {
             String link = yamlConfig.getValidatelink()+"/validate/"+existingUVUser.get_id();
             mailService.sendEmail(existingUVUser.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
-            return ResponseEntity.status(HttpStatus.OK).body(existingUVUser.get_id());
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", existingUVUser.get_id()));
         }
         userEntityUV.setEnabled(false);
         UserEntityUV savedUser = userService.saveUVUser(userEntityUV);
@@ -66,7 +67,7 @@ public class CowinApiPublicController {
             String link = yamlConfig.getValidatelink()+"/validate/"+userEntityUV.get_id();
             mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
-            return ResponseEntity.status(HttpStatus.OK).body(userEntityUV.get_id());
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", userEntityUV.get_id()));
         }
         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Invalid request!");
     }
@@ -103,7 +104,7 @@ public class CowinApiPublicController {
             userService.deleteUser(userEntity);
             userService.deleteUVUserByMail(email);
         }
-        return ResponseEntity.status(HttpStatus.OK).body("User removed successfully!");
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "User removed successfully"));
     }
 
    

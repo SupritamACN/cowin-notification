@@ -7,7 +7,7 @@ export const environment = {
   R_BASE_URL: 'https://cowin-slot-313213.el.r.appspot.com',
   R_SUBSCRIBE_USER: '/v1/public/subscribe/',
   R_UNSUBSCRIBE_USER: '/v1/public/unsubscribe/',
-  TELEGRAM_SUBSCRIBE: '/v1/public/telegram/subcribe/',
+  TELEGRAM_SUBSCRIBE: '/v1/public/telegram/subscribe/',
 
   COWIN_BASE_URL: 'https://cdn-api.co-vin.in/api',
   COWIN_DISTRICT: '/v2/admin/location/districts/',
@@ -17,11 +17,13 @@ export const environment = {
     msg01: 'Please verify ',
     msg02: ', to complete subcription for ',
     spamMsg: ' Please check your SPAM box as well in case you do not receive the email.',
-    telegramMsg: 'To register for Telegram message, please ping the same email id to ',
-    telegramId: 'https://to.me/CowinNotBot',
-    telegramIdShowName: 'telegram bot',
+    telegramMessage: 'To register for Telegram message, please ping the same email id to ',
+    telegramId: 'https://t.me/CowinNotBot',
+    telegramIdShowName: 'Cowin-slot-bot Telegram bot',
     telegramDirectVerification: 'https://t.me/CowinNotBot?start=',
-    telegramDirectVerificationMsg: 'Click here to instant verify '
+    telegramDirectVerificationMsg1: 'Click',
+    telegramDirectVerificationMsg2: 'here',
+    telegramDirectVerificationMsg3: 'to instant verify.'
   }
 };
 
