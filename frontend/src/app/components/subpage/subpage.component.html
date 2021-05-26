@@ -63,7 +63,7 @@
     <button mat-raised-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
       (click)="doSubscribe()" *ngIf="!loading">
       <span class="tooltiptext" *ngIf="!subscribersForm.valid">Fill the form correctly!</span>
-      <strong>SUBSCRIBE</strong>
+      <span style="margin-top: auto; font-size: 1.08em;">SUBSCRIBE</span>
     </button>
     <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto;"></mat-spinner>
   </form>
@@ -132,7 +132,7 @@
   <!-- telegram form start -->
   <form class="example-form" [formGroup]="telegramForm" style="padding: 20px; text-align: center;"
     *ngIf="formMode == '3'" #formDirective="ngForm">
-    <p style="text-align: left; font-size: .4em; background-color: rgb(240, 236, 232);padding: 2px; border-radius: 2px; padding-left: 10px;">
+    <p style="text-align: left; font-size: .6em; background-color: rgb(240, 236, 232);padding: 2px; border-radius: 2px; padding-left: 10px;">
       To subscribe to Telegram Notification, please enter your registered email id and click on the generated
       link, or direct ping <strong>@CowinNotBot</strong> with your registered email id.</p>
     <mat-form-field class="email" style="width: 100%;">
