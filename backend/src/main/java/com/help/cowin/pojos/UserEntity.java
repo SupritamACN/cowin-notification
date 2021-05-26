@@ -15,7 +15,7 @@ public class UserEntity {
     @Id
     private String _id;
 
-    private Long chatId;
+    private Long chatId = 0L;
 
     private String email;
     private ArrayList<PlaceEntity> district;

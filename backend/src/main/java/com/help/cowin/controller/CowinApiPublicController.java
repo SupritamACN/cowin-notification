@@ -65,7 +65,7 @@ public class CowinApiPublicController {
         UserEntityUV savedUser = userService.saveUVUser(userEntityUV);
         if(savedUser != null){
             String link = yamlConfig.getValidatelink()+"/validate/"+userEntityUV.get_id();
-            mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
+            mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subscribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
             return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", userEntityUV.get_id()));
         }
@@ -90,7 +90,7 @@ public class CowinApiPublicController {
             savedUser.setEnabled(true);
             userService.saveUser(savedUser);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
     }
 
    

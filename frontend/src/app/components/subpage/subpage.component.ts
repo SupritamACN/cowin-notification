@@ -49,6 +49,7 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   telegramDirectVerificationMsg2:string= '';
   telegramDirectVerificationMsg3:string= '';
   telegramURL:string= '';
+  spamMsg:string= '';
 
   ageList: {
     id: Number;
@@ -191,6 +192,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
         this.telegramMessage = environment.subcription_message.telegramMessage;
         this.telegramId = environment.subcription_message.telegramId;
         this.telegramIdShowName = environment.subcription_message.telegramIdShowName;
+
+        this.spamMsg = environment.subcription_message.spamMsg;
 
         this.telegramDirectVerificationMsg1 = environment.subcription_message.telegramDirectVerificationMsg1;
         this.telegramDirectVerificationMsg2 = environment.subcription_message.telegramDirectVerificationMsg2;
