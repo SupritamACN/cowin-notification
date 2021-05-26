@@ -56,7 +56,8 @@
     </p>
     <p *ngIf="subscriptionMessage" style="font-size: small;">
       {{telegramDirectVerificationMsg1}}
-      <strong><a href="{{telegramURL}}" target="_blank" rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
+      <strong><a href="{{telegramURL}}" target="_blank"
+          rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
       {{telegramDirectVerificationMsg3}}
     </p>
     <button mat-raised-button class="tooltip" [disabled]="!subscribersForm.valid" style="width: fit-content;"
@@ -128,9 +129,12 @@
     <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
   </form>
 
-    <!-- telegram form start -->
-    <form class="example-form" [formGroup]="telegramForm" style="padding: 20px; text-align: center;"
+  <!-- telegram form start -->
+  <form class="example-form" [formGroup]="telegramForm" style="padding: 20px; text-align: center;"
     *ngIf="formMode == '3'" #formDirective="ngForm">
+    <p style="text-align: left; font-size: .4em; background-color: rgb(240, 236, 232);padding: 2px; border-radius: 2px; padding-left: 10px;">
+      To subscribe to Telegram Notification, please enter your registered email id and click on the generated
+      link, or direct ping <strong>@CowinNotBot</strong> with your registered email id.</p>
     <mat-form-field class="email" style="width: 100%;">
       <mat-label>Registered Email</mat-label>
       <input type="email" matInput formControlName="email" placeholder="Ex. abc@test.com">
@@ -145,7 +149,8 @@
     <br>
     <p *ngIf="subscriptionMessage" style="font-size: 20px;">
       {{telegramDirectVerificationMsg1}}
-      <strong><a href="{{telegramURL}}" target="_blank" rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
+      <strong><a href="{{telegramURL}}" target="_blank"
+          rel="noopener noreferrer">{{telegramDirectVerificationMsg2}}</a></strong>
       {{telegramDirectVerificationMsg3}}
     </p>
     <br>
@@ -156,7 +161,7 @@
       <!-- <span class="material-icons">
         notifications_active
         </span>&nbsp; -->
-        <mat-icon svgIcon="telegramIcon"></mat-icon>&nbsp;
+      <mat-icon svgIcon="telegramIcon"></mat-icon>&nbsp;
       <span style="margin-top: auto; font-size: 1.08em;">SUBSCRIBE TELEGRAM</span>
     </button>
     <mat-spinner *ngIf="loading" style="transform: scale(.2); padding: 0; margin: 0 auto; z-index: 100;"></mat-spinner>
