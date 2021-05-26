@@ -101,11 +101,15 @@ public class TelegramController {
             }else if(update.getMessage().getText().toLowerCase().contains("unsubscribe")){
 
                 UserEntity user = userService.findUserByChatId(update.getMessage().getChatId());
-                userService.deleteUser(user);
-                UserEntity userToBeSaved = new UserEntity(user.get_id(), user.getEmail(), user.getDistrict(), user.getMinAgeLimit(), user.isEnabled());
-                userService.saveUser(userToBeSaved);
-                telegramService.sendChat(update.getMessage().getChatId(), "Unsubscribed from" 
-                + " Telegram notifications. Email notifications may still continue.");
+                if(user != null){
+                    userService.deleteUser(user);
+                    UserEntity userToBeSaved = new UserEntity(user.get_id(), user.getEmail(), user.getDistrict(), user.getMinAgeLimit(), user.isEnabled());
+                    userService.saveUser(userToBeSaved);
+                    telegramService.sendChat(update.getMessage().getChatId(), "Unsubscribed from" 
+                    + " Telegram notifications. Email notifications may still continue.");
+                }else{
+                    telegramService.sendChat(update.getMessage().getChatId(), "You are not registered");
+                }
 
             }else{
                 ArrayList<String> email = getEmailAddressesInString(update.getMessage().getText());
