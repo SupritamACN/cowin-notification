@@ -65,7 +65,8 @@ public class TelegramController {
                         user.setChatId(update.getMessage().getChatId());
                         userService.saveUser(user);
                         telegramService.sendChat(user.getChatId(), welcomeChatMessage + user.getDistrictNameAString() + 
-                                " for Age:" + (user.getMinAgeLimit() == 0 ? "Both" : Integer.toString(user.getMinAgeLimit())));
+                                " for Age:" + (user.getMinAgeLimit() == 0 ? "Both" : Integer.toString(user.getMinAgeLimit()))+"\n Type 'Unsubscribe' to turn off" 
+                                + " Telegram notifications.");
                     }else{
                         UserEntityUV userUV = userService.findUVUserById(userid);
                         if(userUV != null){
@@ -75,7 +76,8 @@ public class TelegramController {
                             userToBeSaved.setChatId(update.getMessage().getChatId()); 
                             userService.saveUser(userToBeSaved);
                             telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit()))+"\n Type 'Unsubscribe' to turn off" 
+                                + " Telegram notifications.");
                         }
                         else{
                             userUV = userService.findUVUserByMail(userid);
@@ -86,7 +88,8 @@ public class TelegramController {
                                 userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                 userService.saveUser(userToBeSaved);
                                 telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit()))+"\n Type 'Unsubscribe' to turn off" 
+                                + " Telegram notifications.");
                             }
                         }
                     }
@@ -127,7 +130,8 @@ public class TelegramController {
                                 userToBeSaved.setChatId(update.getMessage().getChatId());
                                 userService.saveUser(userToBeSaved);
                                 telegramService.sendChat(user.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                        " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                        " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit()))+"\n Type 'Unsubscribe' to turn off" 
+                                        + " Telegram notifications.");
                             }else{
                                 UserEntityUV userUV = userService.findUVUserByMail(e);
                                 if(userUV != null){
@@ -137,7 +141,8 @@ public class TelegramController {
                                     userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                     userService.saveUser(userToBeSaved);
                                     telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
-                                        " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit())));
+                                        " for Age:" + (userToBeSaved.getMinAgeLimit() == 0 ? "Both" : Integer.toString(userToBeSaved.getMinAgeLimit()))+"\n Type 'Unsubscribe' to turn off" 
+                                        + " Telegram notifications.");
                                 }
 
                             }
