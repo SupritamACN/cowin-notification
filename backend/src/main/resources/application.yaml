@@ -17,9 +17,10 @@ telegram:
     sendMessageURL: ${telegram.host}/sendMessage
 
 environment: prod
-validatelink: {appLink}/v1/public
-server.port: 8080
 appLink: https://cowin-slot-313213.el.r.appspot.com
+validatelink: ${appLink}/v1/public
+server.port: 8080
+
 
 #spring.main.web-application-type: NONE
 
