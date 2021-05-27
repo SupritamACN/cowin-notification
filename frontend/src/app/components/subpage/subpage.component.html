@@ -49,6 +49,10 @@
 
     <br>
     <br>
+    <p *ngIf="validate === 'true'" style="font-size: small;color: red;">{{successfullMsg}}</p>
+    <p *ngIf="validate === 'false'" style="font-size: small;color: red;">{{failureMsg}}</p>
+    <p *ngIf="validate === 'validated'" style="font-size: small;color: red;">{{alreadyValidatedMsg}}</p>
+    
     <p *ngIf="subscriptionMessage" style="font-size: small;">{{email_message}} {{district_message}} {{spamMsg}}</p>
     <p *ngIf="subscriptionMessage" style="font-size: small;">
       {{telegramMessage}}

@@ -73,14 +73,14 @@ public class CowinApiPublicController {
     }
 
     @GetMapping("/validate/{objectId}")
-    public ResponseEntity<Object> enableSubcription(@PathVariable("objectId") String id){
+    public String enableSubcription(@PathVariable("objectId") String id){
         UserEntity savedUser = userService.findUserById(id);
         UserEntityUV userEntityUV = userService.findUVUserById(id);
         if(userEntityUV == null && savedUser == null)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token!");
+            return "redirect:/?validate=false";
         if(savedUser != null && savedUser.isEnabled())
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
-
+            //return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
+            return "redirect:/?validate=validated";
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
@@ -90,7 +90,8 @@ public class CowinApiPublicController {
             savedUser.setEnabled(true);
             userService.saveUser(savedUser);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
+        //return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
+        return "redirect:/?validate=true";
     }
 
    

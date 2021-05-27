@@ -6,6 +6,8 @@ import { CowinapiService } from 'src/app/service/cowinapi.service';
 import { DistrictEntity } from 'src/app/model/DistrictEntity';
 import { StateEntity } from 'src/app/model/StateEntity';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 
 export enum FormMode {
@@ -20,6 +22,9 @@ export enum FormMode {
 export class SubpageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('formDirective') private formDirective: NgForm | any;
+
+  validate: string = '';
+
 
   appload: boolean = true;
   subscribersForm: any;
@@ -50,6 +55,9 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   telegramDirectVerificationMsg3:string= '';
   telegramURL:string= '';
   spamMsg:string= '';
+  successfullMsg:string= "";
+  failureMsg:string= "";
+  alreadyValidatedMsg:string="";
 
   ageList: {
     id: Number;
@@ -62,7 +70,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
 
   constructor(private _fb: FormBuilder,
     private _userService: UserService,
-    private _cowinapiService: CowinapiService) {
+    private _cowinapiService: CowinapiService,
+    private route: ActivatedRoute) {
   }
   ngAfterViewInit(): void {
   }
@@ -105,6 +114,17 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     this.telegramForm = this._fb.group({
       email: [null, [Validators.required, Validators.email]]
     })
+    this.successfullMsg = environment.subcription_message.successfullMsg;
+    this.failureMsg = environment.subcription_message.failureMsg;
+    this.alreadyValidatedMsg = environment.subcription_message.alreadyValidatedMsg;
+    this.route.queryParams.pipe(
+      filter(params => params.validate)
+      ).subscribe(params => {
+      this.validate = params.validate;
+      
+    }
+  );
+
   }
 
   onSelect(e: any) {

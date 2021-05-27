@@ -23,7 +23,10 @@ export const environment = {
     telegramDirectVerification: 'https://t.me/CowinNotBot?start=',
     telegramDirectVerificationMsg1: 'Click',
     telegramDirectVerificationMsg2: 'here',
-    telegramDirectVerificationMsg3: 'to instant verify.'
+    telegramDirectVerificationMsg3: 'to instant verify.',
+    successfullMsg: 'Email verified, subscription activated. You can subscribe for Telegram updates. You can use the Unsubscribe option anytime to stop receiving updates.',
+    failureMsg: 'Email verification failed. Please resubscribe.',
+    alreadyValidatedMsg: 'Email already verified.'
   }
 };
 
