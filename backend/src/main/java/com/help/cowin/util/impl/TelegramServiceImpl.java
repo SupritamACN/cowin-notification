@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -37,9 +38,12 @@ public class TelegramServiceImpl implements TelegramService {
 
         log.info("Telegram Send Message URL:", telegramConfig.getSendMessageURL());
         log.info("Request"+entity.toString());
-
-        ResponseEntity<Message> messageSent = restTemplate.exchange(telegramConfig.getSendMessageURL(), 
+        ResponseEntity<Message> messageSent = null;
+       
+            messageSent = restTemplate.exchange(telegramConfig.getSendMessageURL(), 
                 HttpMethod.POST, entity, Message.class);
+       
+        
 
         if(null != messageSent)
             return true;
