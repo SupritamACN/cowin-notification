@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,14 +74,14 @@ public class CowinApiPublicController {
     }
 
     @GetMapping("/validate/{objectId}")
-    public String enableSubcription(@PathVariable("objectId") String id){
+    public RedirectView enableSubcription(@PathVariable("objectId") String id){
         UserEntity savedUser = userService.findUserById(id);
         UserEntityUV userEntityUV = userService.findUVUserById(id);
         if(userEntityUV == null && savedUser == null)
-            return "redirect:"+ yamlConfig.getAppLink() +"/?validate=false";
+            return new RedirectView(yamlConfig.getAppLink() +"/?validate=false");
         if(savedUser != null && savedUser.isEnabled())
             //return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
-            return "redirect:"+ yamlConfig.getAppLink() +"/?validate=validated";
+            return new RedirectView(yamlConfig.getAppLink() +"/?validate=validated");
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
@@ -91,7 +92,7 @@ public class CowinApiPublicController {
             userService.saveUser(savedUser);
         }
         //return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
-        return "redirect:"+ yamlConfig.getAppLink() +"/?validate=true";
+        return new RedirectView(yamlConfig.getAppLink() +"/?validate=true");
     }
 
    
