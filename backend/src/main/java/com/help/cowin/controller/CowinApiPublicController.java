@@ -77,10 +77,10 @@ public class CowinApiPublicController {
         UserEntity savedUser = userService.findUserById(id);
         UserEntityUV userEntityUV = userService.findUVUserById(id);
         if(userEntityUV == null && savedUser == null)
-            return "redirect:/?validate=false";
+            return "redirect:"+ yamlConfig.getAppLink() +"/?validate=false";
         if(savedUser != null && savedUser.isEnabled())
             //return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
-            return "redirect:/?validate=validated";
+            return "redirect:"+ yamlConfig.getAppLink() +"/?validate=validated";
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
@@ -91,7 +91,7 @@ public class CowinApiPublicController {
             userService.saveUser(savedUser);
         }
         //return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
-        return "redirect:/?validate=true";
+        return "redirect:"+ yamlConfig.getAppLink() +"/?validate=true";
     }
 
    

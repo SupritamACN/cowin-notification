@@ -17,5 +17,5 @@ public class YAMLConfig {
 
     private String validatelink;
 
-	
+	private String appLink;
 }
