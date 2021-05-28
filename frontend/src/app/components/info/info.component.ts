@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CowinapiService } from 'src/app/service/cowinapi.service';
 
 @Component({
   selector: 'app-info',
@@ -9,11 +10,18 @@ export class InfoComponent implements OnInit {
 
   today: number = Date.now();
 
-  constructor() {
+  constructor(private _cowinApiService: CowinapiService) {
     setInterval(() => { this.today = Date.now() }, 1);
   }
 
   ngOnInit(): void {
+  }
+
+    
+  theme:boolean = false;
+  changeTheme(){
+    this.theme = !this.theme;
+    this._cowinApiService.theme.next(this.theme);
   }
 
 }

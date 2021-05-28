@@ -21,6 +21,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('formDirective') private formDirective: NgForm | any;
 
+  theme:boolean = true;
+
   appload: boolean = true;
   subscribersForm: any;
   unSubscribersForm: any;
@@ -29,26 +31,26 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   telegramForm: FormGroup = this._fb.group({});
   toggleBtnText: boolean = true;
   formMode: string = FormMode.SUB_MODE.toString();
-  editMode:boolean = false;
+  editMode: boolean = false;
   loading: boolean = false;
   email_message: string = '';
   district_message: any = '';
-  telegramMessage:string= '';
-  telegramId:string= '';
-  telegramIdShowName:string= '';
+  telegramMessage: string = '';
+  telegramId: string = '';
+  telegramIdShowName: string = '';
   subscriptionMessage: boolean = false;
   districtList: DistrictEntity[] = [];
   selectedSate: Number = 0;
   selectedDistricts: PlaceEntity[] = [];
   stateList: StateEntity[] = [];
   selectedAge: Number = 0;
-  savedDistricts:PlaceEntity[] = [];
-  minAgeLimit:Number = 99;
-  u_email:string = '';
-  telegramDirectVerificationMsg1:string= '';
-  telegramDirectVerificationMsg2:string= '';
-  telegramDirectVerificationMsg3:string= '';
-  telegramURL:string= '';
+  savedDistricts: PlaceEntity[] = [];
+  minAgeLimit: Number = 99;
+  u_email: string = '';
+  telegramDirectVerificationMsg1: string = '';
+  telegramDirectVerificationMsg2: string = '';
+  telegramDirectVerificationMsg3: string = '';
+  telegramURL: string = '';
 
   ageList: {
     id: Number;
@@ -57,11 +59,21 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       { id: 0, value: 'Both' },
       { id: 18, value: '18' },
       { id: 45, value: '45' }
+    ];
+
+  doseList: {
+    id: Number;
+    value: string
+  }[] = [
+      { id: 0, value: 'Both' },
+      { id: 1, value: '1' },
+      { id: 2, value: '2' }
     ]
 
   constructor(private _fb: FormBuilder,
     private _userService: UserService,
     private _cowinapiService: CowinapiService) {
+      this._cowinapiService.theme.subscribe((res: boolean) => this.theme = res);
   }
   ngAfterViewInit(): void {
   }
@@ -69,7 +81,6 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this._cowinapiService.getAllStates().subscribe(
       (res: any) => {
-        //console.log(res)
         res.states.forEach((s: any) => {
           this.stateList.push(new StateEntity(s.state_id, s.state_name));
         });
@@ -87,7 +98,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       email: [null, [Validators.required, Validators.email]],
       district: [null, Validators.required],
       state: [null, Validators.required],
-      age: [null, [Validators.required]]
+      age: [null, [Validators.required]],
+      dose: [null, [Validators.required]]
     });
 
     this.unSubscribersForm = this._fb.group({
@@ -143,12 +155,10 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     switch (formMode) {
       case '0':
         this.formMode = FormMode.SUB_MODE.toString();
-        break;      
+        break;
       case '1':
-        console.log('unsub cliked')
         this.formMode = FormMode.UN_SUB_MODE.toString();
-        console.log(this.formMode)
-        break;      
+        break;
       case '2':
         this.formMode = FormMode.EDIT_MODE.toString();
         break;
@@ -178,9 +188,9 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     let userEntity: UserEntity = new UserEntity(
       this.subscribersForm.value.email,
       dList,
-      this.selectedAge
+      this.selectedAge,
+      this.subscribersForm.value.dose
     );
-
     this._userService.doSubscribeUser(userEntity).subscribe(
       res => {
         this.email_message = environment.subcription_message.msg01 + this.subscribersForm.value.email + environment.subcription_message.msg02;
@@ -204,7 +214,6 @@ export class SubpageComponent implements OnInit, AfterViewInit {
         return 'success';
       },
       err => {
-        //console.log(err.error.text);
         this.subscriptionMessage = true;
         this.email_message = err.error.text;
         this.district_message = '';
@@ -239,26 +248,24 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     return val;
   }
 
-  
+
   doTelegramSub(): void {
     this.loading = true;
     //let val: any = this.telegramForm.value;
     this._userService.doTelegramSubscribe(this.telegramForm.value.email).subscribe(
       res => {
-        console.log(res);
-        
+
         this.telegramDirectVerificationMsg1 = environment.subcription_message.telegramDirectVerificationMsg1;
         this.telegramDirectVerificationMsg2 = environment.subcription_message.telegramDirectVerificationMsg2;
         this.telegramDirectVerificationMsg3 = environment.subcription_message.telegramDirectVerificationMsg3;
 
         this.telegramURL = environment.subcription_message.telegramDirectVerification + res.message;
-        
+
         this.subscriptionMessage = true;
         this.formDirective.resetForm();
         this.loading = false;
       },
       err => {
-        console.log(err);
         if (err.status == 404) {
           this.email_message = '' + err.error;
         } else {
@@ -276,32 +283,30 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   showPreference(): void {
     this.formMode = FormMode.EDIT_MODE.toString();
   }
-  getUserByMail(){
+  getUserByMail() {
     this.u_email = this.unSubscribersForm.value.u_email;
     this._userService.getUserByMail(this.u_email).subscribe(
       res => {
-        console.log(res);
         this.savedDistricts = res.district
-        console.log(res.district)
         this.editMode = true;
         this.emailForm.controls['email'].disable()
       }
     );
   }
 
-  doUpdate(){
-    let user:UserEntity = new UserEntity(
+  doUpdate() {
+    let user: UserEntity = new UserEntity(
       this.updateForm.value.email,
       this.selectedDistricts,
-      this.subscribersForm.value.age
+      this.subscribersForm.value.age,
+      this.subscribersForm.value.dose
     );
     this._userService.doUpdate(user).subscribe(
       res => {
-        console.log(user);
       },
       err => {
-        console.log(err)        
       }
     );
   }
+
 }
