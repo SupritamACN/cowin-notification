@@ -33,7 +33,7 @@ export class UserService {
     districtList.push(p1)
     districtList.push(p2)
     districtList.push(p3)
-    let u:UserEntity = new UserEntity(email, districtList, 18);
+    let u:UserEntity = new UserEntity(email, districtList, 18, 2);
     return new BehaviorSubject(u);
   }
 

@@ -1,4 +1,5 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
@@ -11,37 +12,43 @@ body {
   margin: 8px;
 }
 
-.danger:hover{
+.danger:hover {
   background-color: rgb(216, 114, 18);
   color: aliceblue;
 }
 
 
-.edit:hover{
+.edit:hover {
   background-color: rgb(73, 184, 248);
   color: aliceblue;
 }
+
 .success-btn:hover {
   background-color: rgb(71, 199, 92);
   color: aliceblue;
 }
 
 @media only screen and (min-width: 600px) {
-  .title{
+  .title {
     height: 2em;
     line-height: 2em;
     font-weight: bolder;
   }
+
   #container {
     width: 60% !important;
+    border-radius: 10px;
   }
-  .district{
-    width: 30% !important;
+
+  .district {
+    width: 48% !important;
   }
-  .state{
-    width: 30% !important;
+
+  .state {
+    width: 48% !important;
   }
-  #buttom-options{
+
+  #buttom-options {
     text-align: right !important;
   }
 }
@@ -50,7 +57,8 @@ body {
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  border-bottom: 1px dotted black;
+  /* If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
@@ -62,14 +70,15 @@ body {
   text-align: center;
   padding: 5px 10px;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
   width: fit-content;
   bottom: 100%;
   left: 50%;
-  margin-left: -50%; /* Use half of the width (120/2 = 60), to center the tooltip */
+  margin-left: -50%;
+  /* Use half of the width (120/2 = 60), to center the tooltip */
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */

@@ -14,5 +14,78 @@ body {
   margin: 8px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  :root {
+    --bodyBg: #333333;
+    --bgColor: #353535;
+    --headBg: #ffffff;
+    --text: #ffffff;
+    --headText: #ffc288;
+  }
+
+  .orange-bodyBg {
+    background-color: var(--bodyBg) !important;
+    border-radius: 10px !important;
+    transition: all .4s ease-in-out;
+    color: var(--text) !important;
+  }
+
+  .orange-bgColor {
+    background-color: var(--bgColor) !important;
+    color: var(--text) !important;
+  }
+
+  .orange-headBg {
+    color: var(--text);
+  }
+
+  .orange-form {
+    background-color: antiquewhite !important;
+    color: #333333 !important;
+  }
+
+  .orange-footer {
+    background-color: var(--bgColor) !important;
+    border-radius: 0px !important;
+    box-shadow: 0px 0px 5px rgba(255, 137, 41, 0.774) !important;
+  }
+
+  .orange-button {
+    background-color: rgb(255, 216, 166) !important;
+    border-radius: 20px !important;
+  }
+  .orange-button:hover {
+    background-color: rgb(136, 84, 15) !important;
+    color: rgb(255, 246, 235) !important;
+  }
+  .orange-info{
+    background-color: rgb(209, 134, 35) !important;
+    color: rgb(255, 246, 235) !important;
+    border-radius: 50px !important;
+  }

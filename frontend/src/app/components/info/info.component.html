@@ -1,1 +1,9 @@
-<p>{{today | date:'fullDate'}} {{today | date:'h:mm:ss a'}}</p>
+<span class="container " >
+    <p class="shake-slow">{{today | date:'fullDate'}} {{today | date:'h:mm:ss a'}}</p>
+</span>
+<button mat-stroked-button (click)="changeTheme()"
+    style="position: absolute; border-radius: 50px; top: 10px; right: 10px; transform: scale(.6);">
+    <span class="material-icons">
+        dark_mode
+    </span>
+</button>
