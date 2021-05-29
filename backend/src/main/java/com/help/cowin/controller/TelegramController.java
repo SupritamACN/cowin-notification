@@ -72,7 +72,7 @@ public class TelegramController {
                         if(userUV != null){
                             userService.deleteUVUserByMail(userUV.getEmail());
                             UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),
-                                userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0);
+                                userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0, userUV.getDose());
                             userToBeSaved.setChatId(update.getMessage().getChatId()); 
                             userService.saveUser(userToBeSaved);
                             telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
@@ -84,7 +84,7 @@ public class TelegramController {
                             if(userUV != null){
                                 userService.deleteUVUserByMail(userUV.getEmail());
                                 UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),
-                                    userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0);
+                                    userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0, userUV.getDose());
                                 userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                 userService.saveUser(userToBeSaved);
                                 telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
@@ -109,7 +109,7 @@ public class TelegramController {
                 if(user != null){
                     userService.deleteUser(user);
                     UserEntity userToBeSaved = new UserEntity(user.get_id(), user.getEmail(), 
-                        user.getDistrict(), user.getMinAgeLimit(), user.isEnabled(), user.getNotifyCount());
+                        user.getDistrict(), user.getMinAgeLimit(), user.isEnabled(), user.getNotifyCount(), user.getDose());
                     userService.saveUser(userToBeSaved);
                     telegramService.sendChat(update.getMessage().getChatId(), "Unsubscribed from" 
                     + " Telegram notifications. Email notifications may still continue.");
@@ -126,7 +126,7 @@ public class TelegramController {
                             if(user != null){
                                 userService.deleteUser(user);
                                 UserEntity userToBeSaved = new UserEntity(user.get_id(), user.getEmail(), 
-                                    user.getDistrict(), user.getMinAgeLimit(), user.isEnabled(), user.getNotifyCount());
+                                    user.getDistrict(), user.getMinAgeLimit(), user.isEnabled(), user.getNotifyCount(), user.getDose());
                                 userToBeSaved.setChatId(update.getMessage().getChatId());
                                 userService.saveUser(userToBeSaved);
                                 telegramService.sendChat(user.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 
@@ -137,7 +137,7 @@ public class TelegramController {
                                 if(userUV != null){
                                     userService.deleteUVUserByMail(userUV.getEmail());
                                     UserEntity userToBeSaved = new UserEntity(userUV.get_id(),userUV.getEmail(),
-                                        userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0);
+                                        userUV.getDistrict(),userUV.getMinAgeLimit(), false, 0, userUV.getDose());
                                     userToBeSaved.setChatId(update.getMessage().getChatId()); 
                                     userService.saveUser(userToBeSaved);
                                     telegramService.sendChat(userToBeSaved.getChatId(), welcomeChatMessage + userToBeSaved.getDistrictNameAString() + 

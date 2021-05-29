@@ -24,25 +24,29 @@ public class UserEntity {
     private Integer notifyCount = 0;
 
     private int minAgeLimit;
+
+    private int dose;
     
     public UserEntity() {
     }
 
-    public UserEntity(String id, String email, ArrayList<PlaceEntity> district, int minAgeLimit, boolean enabled) {
+    public UserEntity(String id, String email, ArrayList<PlaceEntity> district, int minAgeLimit, boolean enabled, int dose) {
         this.email = email;
         this.district = district;
         this.enabled = enabled;
         this.minAgeLimit = minAgeLimit;
         this._id = id;
+        this.dose = dose;
     }
 
-    public UserEntity(String id, String email, ArrayList<PlaceEntity> district, int minAgeLimit, boolean enabled, Integer notifyCount) {
+    public UserEntity(String id, String email, ArrayList<PlaceEntity> district, int minAgeLimit, boolean enabled, Integer notifyCount, int dose) {
         this.email = email;
         this.district = district;
         this.enabled = enabled;
         this.minAgeLimit = minAgeLimit;
         this._id = id;
         this.notifyCount = notifyCount;
+        this.dose = dose;
     }
 
     public String getDistrictNameAString(){

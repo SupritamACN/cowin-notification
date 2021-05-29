@@ -85,7 +85,8 @@ public class CowinApiPublicController {
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
-            savedUser = userService.saveUser(new UserEntity(userEntityUV.get_id(),userEntityUV.getEmail(),userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true));
+            savedUser = userService.saveUser(new UserEntity(userEntityUV.get_id(),userEntityUV.getEmail(),
+                userEntityUV.getDistrict(),userEntityUV.getMinAgeLimit(), true, userEntityUV.getDose()));
         }
         else if(null != savedUser){
             savedUser.setEnabled(true);

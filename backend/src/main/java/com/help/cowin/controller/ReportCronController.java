@@ -41,9 +41,10 @@ public class ReportCronController {
     @Autowired
     private UserEntityUVRepo unverifiedUserRepo;
 
-    @Autowired
-    private RestTemplate restTemplate;
-    
+    /**
+     * Scheduled through Cloud scheduler
+    **/
+
     //@Scheduled(cron = "0 0 0 * * *")
     @GetMapping("/housekeep-temp-table")
     public void housekeepingUnVerfiedUsers(){

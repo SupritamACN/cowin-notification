@@ -81,13 +81,14 @@ export class SubpageComponent implements OnInit, AfterViewInit {
       { id: 2, value: '2' }
     ]
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _userService: UserService,
-    private route: ActivatedRoute) {
-  }
+    private route: ActivatedRoute, 
     private _cowinapiService: CowinapiService) {
       this._cowinapiService.theme.subscribe((res: boolean) => this.theme = res);
-  }
+  } 
+   
   ngAfterViewInit(): void {
   }
 

@@ -26,6 +26,8 @@ public class UserEntityUV {
     private Long chatId;
     private int minAgeLimit;
 
+    private int dose;
+
     public UserEntityUV() {
     }
 
@@ -34,43 +36,4 @@ public class UserEntityUV {
         this.district = district;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public ArrayList<PlaceEntity> getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(ArrayList<PlaceEntity> district) {
-        this.district = district;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public int getMinAgeLimit() {
-        return minAgeLimit;
-    }
-
-    public void setMinAgeLimit(int minAgeLimit) {
-        this.minAgeLimit = minAgeLimit;
-    }
 }
