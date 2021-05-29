@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { CowinapiService } from './service/cowinapi.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,9 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class AppComponent {
   title = 'cowin-mail-notifier';
 
-  // constructor(){
-  // }
   constructor(private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer){
+    private domSanitizer: DomSanitizer,
+    private _cowinApiService: CowinapiService){
     this.matIconRegistry.addSvgIcon(
       `telegramIcon`,
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/telegram.svg")
