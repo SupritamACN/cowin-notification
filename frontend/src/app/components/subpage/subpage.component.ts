@@ -6,6 +6,8 @@ import { CowinapiService } from 'src/app/service/cowinapi.service';
 import { DistrictEntity } from 'src/app/model/DistrictEntity';
 import { StateEntity } from 'src/app/model/StateEntity';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 
 export enum FormMode {
@@ -21,7 +23,10 @@ export class SubpageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('formDirective') private formDirective: NgForm | any;
 
+
+  validate: string = '';
   theme:boolean = true;
+
 
   appload: boolean = true;
   subscribersForm: any;
@@ -44,13 +49,19 @@ export class SubpageComponent implements OnInit, AfterViewInit {
   selectedDistricts: PlaceEntity[] = [];
   stateList: StateEntity[] = [];
   selectedAge: Number = 0;
-  savedDistricts: PlaceEntity[] = [];
-  minAgeLimit: Number = 99;
-  u_email: string = '';
-  telegramDirectVerificationMsg1: string = '';
-  telegramDirectVerificationMsg2: string = '';
-  telegramDirectVerificationMsg3: string = '';
-  telegramURL: string = '';
+
+  savedDistricts:PlaceEntity[] = [];
+  minAgeLimit:Number = 99;
+  u_email:string = '';
+  telegramDirectVerificationMsg1:string= '';
+  telegramDirectVerificationMsg2:string= '';
+  telegramDirectVerificationMsg3:string= '';
+  telegramURL:string= '';
+  spamMsg:string= '';
+  successfullMsg:string= "";
+  failureMsg:string= "";
+  alreadyValidatedMsg:string="";
+
 
   ageList: {
     id: Number;
@@ -72,6 +83,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
 
   constructor(private _fb: FormBuilder,
     private _userService: UserService,
+    private route: ActivatedRoute) {
+  }
     private _cowinapiService: CowinapiService) {
       this._cowinapiService.theme.subscribe((res: boolean) => this.theme = res);
   }
@@ -116,6 +129,17 @@ export class SubpageComponent implements OnInit, AfterViewInit {
     this.telegramForm = this._fb.group({
       email: [null, [Validators.required, Validators.email]]
     })
+    this.successfullMsg = environment.subcription_message.successfullMsg;
+    this.failureMsg = environment.subcription_message.failureMsg;
+    this.alreadyValidatedMsg = environment.subcription_message.alreadyValidatedMsg;
+    this.route.queryParams.pipe(
+      filter(params => params.validate)
+      ).subscribe(params => {
+      this.validate = params.validate;
+      
+    }
+  );
+
   }
 
   onSelect(e: any) {
@@ -201,6 +225,8 @@ export class SubpageComponent implements OnInit, AfterViewInit {
         this.telegramMessage = environment.subcription_message.telegramMessage;
         this.telegramId = environment.subcription_message.telegramId;
         this.telegramIdShowName = environment.subcription_message.telegramIdShowName;
+
+        this.spamMsg = environment.subcription_message.spamMsg;
 
         this.telegramDirectVerificationMsg1 = environment.subcription_message.telegramDirectVerificationMsg1;
         this.telegramDirectVerificationMsg2 = environment.subcription_message.telegramDirectVerificationMsg2;

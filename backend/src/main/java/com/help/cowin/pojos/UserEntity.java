@@ -15,7 +15,7 @@ public class UserEntity {
     @Id
     private String _id;
 
-    private long chatId;
+    private Long chatId = 0L;
 
     private String email;
     private ArrayList<PlaceEntity> district;
@@ -34,6 +34,15 @@ public class UserEntity {
         this.enabled = enabled;
         this.minAgeLimit = minAgeLimit;
         this._id = id;
+    }
+
+    public UserEntity(String id, String email, ArrayList<PlaceEntity> district, int minAgeLimit, boolean enabled, Integer notifyCount) {
+        this.email = email;
+        this.district = district;
+        this.enabled = enabled;
+        this.minAgeLimit = minAgeLimit;
+        this._id = id;
+        this.notifyCount = notifyCount;
     }
 
     public String getDistrictNameAString(){

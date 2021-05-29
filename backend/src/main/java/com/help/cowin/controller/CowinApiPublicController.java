@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +66,7 @@ public class CowinApiPublicController {
         UserEntityUV savedUser = userService.saveUVUser(userEntityUV);
         if(savedUser != null){
             String link = yamlConfig.getValidatelink()+"/validate/"+userEntityUV.get_id();
-            mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subcribing. \n"+
+            mailService.sendEmail(userEntityUV.getEmail(), "Subscription Verification", "Hello, Thank you for subscribing. \n"+
             "Please click on the link to validate and enable your subcription:" + link );
             return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", userEntityUV.get_id()));
         }
@@ -73,14 +74,14 @@ public class CowinApiPublicController {
     }
 
     @GetMapping("/validate/{objectId}")
-    public ResponseEntity<Object> enableSubcription(@PathVariable("objectId") String id){
+    public RedirectView enableSubcription(@PathVariable("objectId") String id){
         UserEntity savedUser = userService.findUserById(id);
         UserEntityUV userEntityUV = userService.findUVUserById(id);
         if(userEntityUV == null && savedUser == null)
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token!");
+            return new RedirectView(yamlConfig.getAppLink() +"/?validate=false");
         if(savedUser != null && savedUser.isEnabled())
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
-
+            //return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already verified.");
+            return new RedirectView(yamlConfig.getAppLink() +"/?validate=validated");
         if(userEntityUV != null) {
  
             userService.deleteUVUserByMail(userEntityUV.getEmail());
@@ -90,7 +91,8 @@ public class CowinApiPublicController {
             savedUser.setEnabled(true);
             userService.saveUser(savedUser);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Subcription activated!!");
+        //return ResponseEntity.status(HttpStatus.CREATED).body("Subscription activated!!");
+        return new RedirectView(yamlConfig.getAppLink() +"/?validate=true");
     }
 
    

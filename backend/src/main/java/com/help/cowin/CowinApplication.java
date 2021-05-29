@@ -1,10 +1,13 @@
 package com.help.cowin;
 
+import com.help.cowin.util.ErrorResponseHandler;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -19,6 +22,8 @@ public class CowinApplication {
     
     @Bean
     public RestTemplate getRestTemplate() {
-      return new RestTemplate();
+      RestTemplate restTemplate = new RestTemplate();
+      restTemplate.setErrorHandler(new ErrorResponseHandler());
+      return restTemplate;
    }
 }
